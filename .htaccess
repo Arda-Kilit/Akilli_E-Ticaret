@@ -1,0 +1,22 @@
+# Apache mod_rewrite aktif mi kontrol et
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /akilli-etiket/
+    
+    # Dosya ve klasör varsa rewrite yapma
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # PHP uzantısını kaldır (isteğe bağlı)
+    RewriteRule ^([^\.]+)$ $1.php [NC,L]
+</IfModule>
+
+# PHP hatalarını göster (geliştirme aşamasında)
+
+php_flag display_errors on
+php_value error_reporting E_ALL
+
+# Karakter seti
+
+AddDefaultCharset UTF-8

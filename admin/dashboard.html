@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Admin Panel</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-wrapper">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+          <div class="logo">
+            <i class="fas fa-shopping-bag"></i>
+            <span>AkıllıShop</span>
+          </div>
+        </div>
+
+        <div
+          class="admin-user-info"
+          style="padding: 1.5rem; border-bottom: 1px solid #374151"
+        >
+          <h4>Admin Kullanıcı</h4>
+          <span>admin@akillishop.com</span>
+        </div>
+
+        <nav class="admin-nav">
+          <div class="admin-nav-title">Ana Menü</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="dashboard.html" class="active"
+                ><i class="fas fa-home"></i> Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="products.html"><i class="fas fa-box"></i> Ürünler</a>
+            </li>
+            <li>
+              <a href="orders.html"
+                ><i class="fas fa-shopping-cart"></i> Siparişler
+                <span class="badge">12</span></a
+              >
+            </li>
+            <li>
+              <a href="users.html"><i class="fas fa-users"></i> Kullanıcılar</a>
+            </li>
+            <li>
+              <a href="categories.html"
+                ><i class="fas fa-tags"></i> Kategoriler</a
+              >
+            </li>
+          </ul>
+
+          <div class="admin-nav-title" style="margin-top: 2rem">Sistem</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+            </li>
+            <li>
+              <a href="#" onclick="logout()"
+                ><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <div class="admin-header">
+          <h1>Dashboard</h1>
+          <div class="admin-header-actions">
+            <span style="color: var(--text-light)">Bugün: 24 Mart 2026</span>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon blue">
+              <i class="fas fa-shopping-bag"></i>
+            </div>
+            <div class="stat-content">
+              <h3>1,234</h3>
+              <p>Toplam Sipariş</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-lira-sign"></i></div>
+            <div class="stat-content">
+              <h3>₺45,678</h3>
+              <p>Bu Ay Ciro</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow"><i class="fas fa-users"></i></div>
+            <div class="stat-content">
+              <h3>856</h3>
+              <p>Toplam Müşteri</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon red"><i class="fas fa-box"></i></div>
+            <div class="stat-content">
+              <h3>23</h3>
+              <p>Düşük Stok</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3>Son Siparişler</h3>
+            <a href="orders.html" class="btn btn-sm btn-secondary"
+              >Tümünü Gör</a
+            >
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Sipariş No</th>
+                <th>Müşteri</th>
+                <th>Tarih</th>
+                <th>Tutar</th>
+                <th>Durum</th>
+                <th>İşlem</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#ORD-2024-001</td>
+                <td>Ahmet Yılmaz</td>
+                <td>24.03.2026</td>
+                <td>₺1,299.99</td>
+                <td><span class="status pending">Beklemede</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit"><i class="fas fa-eye"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#ORD-2024-002</td>
+                <td>Mehmet Kaya</td>
+                <td>24.03.2026</td>
+                <td>₺2,499.99</td>
+                <td><span class="status active">Tamamlandı</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit"><i class="fas fa-eye"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>#ORD-2024-003</td>
+                <td>Ayşe Demir</td>
+                <td>23.03.2026</td>
+                <td>₺899.99</td>
+                <td><span class="status cancelled">İptal</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit"><i class="fas fa-eye"></i></button>
+                    <button class="delete"><i class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function logout() {
+        if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+          window.location.href = "index.html";
+        }
+      }
+    </script>
+  </body>
+</html>

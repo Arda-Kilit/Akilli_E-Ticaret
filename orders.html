@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Siparişlerim - AkıllıShop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      .orders-page {
+        padding: 3rem 0;
+      }
+
+      .orders-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 2rem;
+      }
+
+      .profile-sidebar {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        height: fit-content;
+      }
+
+      .profile-user {
+        text-align: center;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 1rem;
+      }
+
+      .profile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .profile-menu a {
+        padding: 0.875rem 1rem;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-dark);
+        transition: var(--transition);
+      }
+
+      .profile-menu a:hover,
+      .profile-menu a.active {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .orders-content {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .orders-content h3 {
+        margin-bottom: 1.5rem;
+      }
+
+      .order-card {
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+      }
+
+      .order-header {
+        background: var(--bg-light);
+        padding: 1rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .order-info {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .order-info div {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .order-info span:first-child {
+        font-size: 0.75rem;
+        color: var(--text-light);
+      }
+
+      .order-info span:last-child {
+        font-weight: 600;
+      }
+
+      .order-status {
+        padding: 0.375rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+
+      .order-status.delivered {
+        background: #d1fae5;
+        color: #065f46;
+      }
+
+      .order-status.shipped {
+        background: #dbeafe;
+        color: #1e40af;
+      }
+
+      .order-status.processing {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .order-items {
+        padding: 1.5rem;
+      }
+
+      .order-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .order-item:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      .order-item img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+      }
+
+      .order-item-info {
+        flex: 1;
+      }
+
+      .order-item-info h4 {
+        margin-bottom: 0.25rem;
+      }
+
+      .order-item-info p {
+        color: var(--text-light);
+        font-size: 0.875rem;
+      }
+
+      .order-item-price {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .order-footer {
+        padding: 1rem 1.5rem;
+        background: var(--bg-light);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .order-total {
+        font-size: 1.125rem;
+        font-weight: 700;
+      }
+
+      @media (max-width: 768px) {
+        .orders-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .order-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-main">
+        <div class="container">
+          <a href="index.html" class="logo"
+            ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
+          >
+          <div class="header-actions">
+            <a href="profile.html" class="header-action"
+              ><i class="fas fa-user"></i
+            ></a>
+            <a href="cart.html" class="header-action"
+              ><i class="fas fa-shopping-cart"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container orders-page">
+      <div class="orders-layout">
+        <aside class="profile-sidebar">
+          <div class="profile-user">
+            <div class="profile-avatar">AY</div>
+            <h3>Ahmet Yılmaz</h3>
+            <p>ahmet@email.com</p>
+          </div>
+          <nav class="profile-menu">
+            <a href="profile.html"
+              ><i class="fas fa-user"></i> Profil Bilgileri</a
+            >
+            <a href="orders.html" class="active"
+              ><i class="fas fa-shopping-bag"></i> Siparişlerim</a
+            >
+            <a href="addresses.html"
+              ><i class="fas fa-map-marker-alt"></i> Adreslerim</a
+            >
+            <a href="favorites.html"
+              ><i class="fas fa-heart"></i> Favorilerim</a
+            >
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+          </nav>
+        </aside>
+
+        <div class="orders-content">
+          <h3>Siparişlerim</h3>
+
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-info">
+                <div>
+                  <span>Sipariş No</span>
+                  <span>#ORD-2024-001</span>
+                </div>
+                <div>
+                  <span>Tarih</span>
+                  <span>20 Mart 2026</span>
+                </div>
+                <div>
+                  <span>Toplam</span>
+                  <span>₺1.299,99</span>
+                </div>
+              </div>
+              <span class="order-status delivered">Teslim Edildi</span>
+            </div>
+            <div class="order-items">
+              <div class="order-item">
+                <img
+                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200"
+                  alt=""
+                />
+                <div class="order-item-info">
+                  <h4>Premium Kablosuz Kulaklık</h4>
+                  <p>Renk: Siyah | Adet: 1</p>
+                </div>
+                <div class="order-item-price">₺1.299,99</div>
+              </div>
+            </div>
+            <div class="order-footer">
+              <a href="#" class="btn btn-sm btn-secondary">Sipariş Detayı</a>
+              <button class="btn btn-sm btn-primary">Tekrar Satın Al</button>
+            </div>
+          </div>
+
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-info">
+                <div>
+                  <span>Sipariş No</span>
+                  <span>#ORD-2024-002</span>
+                </div>
+                <div>
+                  <span>Tarih</span>
+                  <span>15 Mart 2026</span>
+                </div>
+                <div>
+                  <span>Toplam</span>
+                  <span>₺2.699,98</span>
+                </div>
+              </div>
+              <span class="order-status shipped">Kargoda</span>
+            </div>
+            <div class="order-items">
+              <div class="order-item">
+                <img
+                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200"
+                  alt=""
+                />
+                <div class="order-item-info">
+                  <h4>Akıllı Saat Pro</h4>
+                  <p>Renk: Gümüş | Adet: 1</p>
+                </div>
+                <div class="order-item-price">₺2.499,99</div>
+              </div>
+              <div class="order-item">
+                <img
+                  src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200"
+                  alt=""
+                />
+                <div class="order-item-info">
+                  <h4>Kulaklık Standı</h4>
+                  <p>Renk: Ahşap | Adet: 1</p>
+                </div>
+                <div class="order-item-price">₺199,99</div>
+              </div>
+            </div>
+            <div class="order-footer">
+              <a href="#" class="btn btn-sm btn-secondary">Sipariş Detayı</a>
+              <button class="btn btn-sm btn-primary">Kargo Takip</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

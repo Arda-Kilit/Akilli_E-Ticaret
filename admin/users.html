@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kullanıcı Yönetimi - Admin Panel</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-wrapper">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+          <div class="logo">
+            <i class="fas fa-shopping-bag"></i><span>AkıllıShop</span>
+          </div>
+        </div>
+        <div class="admin-user-info">
+          <h4>Admin Kullanıcı</h4>
+          <span>admin@akillishop.com</span>
+        </div>
+        <nav class="admin-nav">
+          <div class="admin-nav-title">Ana Menü</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="products.html"><i class="fas fa-box"></i> Ürünler</a>
+            </li>
+            <li>
+              <a href="orders.html"
+                ><i class="fas fa-shopping-cart"></i> Siparişler</a
+              >
+            </li>
+            <li>
+              <a href="users.html" class="active"
+                ><i class="fas fa-users"></i> Kullanıcılar</a
+              >
+            </li>
+            <li>
+              <a href="categories.html"
+                ><i class="fas fa-tags"></i> Kategoriler</a
+              >
+            </li>
+          </ul>
+          <div class="admin-nav-title" style="margin-top: 2rem">Sistem</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+            </li>
+            <li>
+              <a href="#" onclick="logout()"
+                ><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <div class="admin-header">
+          <h1>Kullanıcı Yönetimi</h1>
+        </div>
+
+        <!-- Stats -->
+        <div
+          class="stats-grid"
+          style="grid-template-columns: repeat(3, 1fr); margin-bottom: 2rem"
+        >
+          <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
+            <div class="stat-content">
+              <h3>856</h3>
+              <p>Toplam Kullanıcı</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-user-check"></i></div>
+            <div class="stat-content">
+              <h3>723</h3>
+              <p>Aktif Kullanıcı</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon yellow">
+              <i class="fas fa-user-clock"></i>
+            </div>
+            <div class="stat-content">
+              <h3>45</h3>
+              <p>Yeni (Bu Ay)</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="data-card" style="margin-bottom: 2rem">
+          <div class="data-card-header">
+            <div style="display: flex; gap: 1rem">
+              <input
+                type="text"
+                placeholder="Kullanıcı ara..."
+                style="
+                  padding: 0.5rem 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: var(--radius-md);
+                  min-width: 300px;
+                "
+              />
+              <select
+                style="
+                  padding: 0.5rem 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: var(--radius-md);
+                "
+              >
+                <option>Tüm Durumlar</option>
+                <option>Aktif</option>
+                <option>Pasif</option>
+                <option>Banlı</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Users Table -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3>Tüm Kullanıcılar</h3>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Kullanıcı</th>
+                <th>E-posta</th>
+                <th>Telefon</th>
+                <th>Sipariş</th>
+                <th>Kayıt Tarihi</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 1rem">
+                    <div
+                      style="
+                        width: 40px;
+                        height: 40px;
+                        background: var(--primary-color);
+                        color: white;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 600;
+                      "
+                    >
+                      AY
+                    </div>
+                    <div>
+                      <div style="font-weight: 600">Ahmet Yılmaz</div>
+                    </div>
+                  </div>
+                </td>
+                <td>ahmet@email.com</td>
+                <td>0532 123 45 67</td>
+                <td>12 sipariş</td>
+                <td>15.01.2024</td>
+                <td><span class="status active">Aktif</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit" onclick="viewUser(1)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button
+                      class="edit"
+                      style="background: #dbeafe; color: #1e40af"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" onclick="banUser(1)">
+                      <i class="fas fa-ban"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 1rem">
+                    <div
+                      style="
+                        width: 40px;
+                        height: 40px;
+                        background: var(--secondary-color);
+                        color: white;
+                        border-radius: 50%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 600;
+                      "
+                    >
+                      MK
+                    </div>
+                    <div>
+                      <div style="font-weight: 600">Mehmet Kaya</div>
+                    </div>
+                  </div>
+                </td>
+                <td>mehmet@email.com</td>
+                <td>0533 987 65 43</td>
+                <td>5 sipariş</td>
+                <td>22.02.2024</td>
+                <td><span class="status active">Aktif</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit" onclick="viewUser(2)">
+                      <i class="fas fa-eye"></i>
+                    </button>
+                    <button
+                      class="edit"
+                      style="background: #dbeafe; color: #1e40af"
+                    >
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" onclick="banUser(2)">
+                      <i class="fas fa-ban"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function viewUser(id) {
+        alert("Kullanıcı detayı: " + id);
+      }
+
+      function banUser(id) {
+        if (confirm("Bu kullanıcıyı banlamak istediğinize emin misiniz?")) {
+          alert("Kullanıcı banlandı!");
+        }
+      }
+
+      function logout() {
+        if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+          window.location.href = "index.html";
+        }
+      }
+    </script>
+  </body>
+</html>

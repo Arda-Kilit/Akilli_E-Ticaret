@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ödeme - AkıllıShop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <style>
+      .checkout-page {
+        padding: 3rem 0;
+      }
+
+      .checkout-grid {
+        display: grid;
+        grid-template-columns: 1.5fr 1fr;
+        gap: 3rem;
+      }
+
+      .checkout-form {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .checkout-section {
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .checkout-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .checkout-section h3 {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        color: var(--text-dark);
+      }
+
+      .checkout-section h3 i {
+        width: 2rem;
+        height: 2rem;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.875rem;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        font-size: 0.875rem;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.875rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        transition: var(--transition);
+      }
+
+      .form-group input:focus,
+      .form-group select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .payment-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .payment-method {
+        border: 2px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1rem;
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .payment-method:hover,
+      .payment-method.active {
+        border-color: var(--primary-color);
+        background: #f0f7ff;
+      }
+
+      .payment-method input[type="radio"] {
+        width: 1.25rem;
+        height: 1.25rem;
+        accent-color: var(--primary-color);
+      }
+
+      .payment-method i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+      }
+
+      .payment-method-info h4 {
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .payment-method-info p {
+        font-size: 0.75rem;
+        color: var(--text-light);
+      }
+
+      .order-summary {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+      }
+
+      .order-summary h3 {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 2px solid var(--border-color);
+      }
+
+      .order-item {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--border-color);
+      }
+
+      .order-item img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        border-radius: var(--radius-md);
+      }
+
+      .order-item-info {
+        flex: 1;
+      }
+
+      .order-item-info h4 {
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .order-item-info p {
+        font-size: 0.75rem;
+        color: var(--text-light);
+      }
+
+      .order-item-price {
+        font-weight: 600;
+        color: var(--primary-color);
+      }
+
+      .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.75rem;
+        font-size: 0.875rem;
+        color: var(--text-light);
+      }
+
+      .summary-row.total {
+        font-size: 1.125rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        padding-top: 1rem;
+        border-top: 2px solid var(--border-color);
+        margin-top: 1rem;
+      }
+
+      .btn-place-order {
+        width: 100%;
+        margin-top: 1.5rem;
+        padding: 1rem;
+        font-size: 1.125rem;
+      }
+
+      .secure-badge {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        color: var(--success-color);
+        font-size: 0.875rem;
+      }
+
+      @media (max-width: 968px) {
+        .checkout-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-main">
+        <div class="container">
+          <a href="index.html" class="logo"
+            ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
+          >
+          <div class="header-actions">
+            <a href="cart.html" class="header-action"
+              ><i class="fas fa-arrow-left"></i><span>Sepete Dön</span></a
+            >
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container checkout-page">
+      <h2 class="section-title mb-4">Ödeme</h2>
+
+      <div class="checkout-grid">
+        <form
+          class="checkout-form"
+          onsubmit="
+            event.preventDefault();
+            placeOrder();
+          "
+        >
+          <!-- Teslimat Bilgileri -->
+          <div class="checkout-section">
+            <h3><i class="fas fa-truck"></i> Teslimat Bilgileri</h3>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Ad</label>
+                <input type="text" placeholder="Adınız" required />
+              </div>
+              <div class="form-group">
+                <label>Soyad</label>
+                <input type="text" placeholder="Soyadınız" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>E-posta</label>
+              <input type="email" placeholder="ornek@email.com" required />
+            </div>
+            <div class="form-group">
+              <label>Telefon</label>
+              <input type="tel" placeholder="05XX XXX XX XX" required />
+            </div>
+            <div class="form-group">
+              <label>Adres</label>
+              <textarea
+                rows="3"
+                placeholder="Sokak, bina no, daire..."
+                required
+              ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Şehir</label>
+                <select required>
+                  <option value="">Seçiniz</option>
+                  <option>İstanbul</option>
+                  <option>Ankara</option>
+                  <option>İzmir</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Posta Kodu</label>
+                <input type="text" placeholder="34000" required />
+              </div>
+            </div>
+          </div>
+
+          <!-- Ödeme Yöntemi -->
+          <div class="checkout-section">
+            <h3><i class="fas fa-credit-card"></i> Ödeme Yöntemi</h3>
+            <div class="payment-methods">
+              <label class="payment-method active">
+                <input type="radio" name="payment" value="card" checked />
+                <i class="fas fa-credit-card"></i>
+                <div class="payment-method-info">
+                  <h4>Kredi/Banka Kartı</h4>
+                  <p>Visa, Mastercard, American Express</p>
+                </div>
+              </label>
+              <label class="payment-method">
+                <input type="radio" name="payment" value="transfer" />
+                <i class="fas fa-university"></i>
+                <div class="payment-method-info">
+                  <h4>Havale/EFT</h4>
+                  <p>Banka havalesi ile ödeme</p>
+                </div>
+              </label>
+              <label class="payment-method">
+                <input type="radio" name="payment" value="cod" />
+                <i class="fas fa-money-bill-wave"></i>
+                <div class="payment-method-info">
+                  <h4>Kapıda Ödeme</h4>
+                  <p>Nakit veya kredi kartı</p>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-place-order">
+            <i class="fas fa-lock"></i> Siparişi Tamamla (₺4.199,96)
+          </button>
+        </form>
+
+        <div class="order-summary">
+          <h3>Sipariş Özeti</h3>
+
+          <div class="order-item">
+            <img
+              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200"
+              alt=""
+            />
+            <div class="order-item-info">
+              <h4>Premium Kablosuz Kulaklık</h4>
+              <p>Adet: 1</p>
+            </div>
+            <div class="order-item-price">₺1.299,99</div>
+          </div>
+
+          <div class="order-item">
+            <img
+              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200"
+              alt=""
+            />
+            <div class="order-item-info">
+              <h4>Akıllı Saat Pro</h4>
+              <p>Adet: 1</p>
+            </div>
+            <div class="order-item-price">₺2.499,99</div>
+          </div>
+
+          <div class="summary-row">
+            <span>Ara Toplam</span>
+            <span>₺4.199,96</span>
+          </div>
+          <div class="summary-row">
+            <span>Kargo</span>
+            <span style="color: var(--success-color)">Ücretsiz</span>
+          </div>
+          <div class="summary-row total">
+            <span>Toplam</span>
+            <span>₺4.199,96</span>
+          </div>
+
+          <div class="secure-badge">
+            <i class="fas fa-shield-alt"></i>
+            <span>256-bit SSL ile güvenli ödeme</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      document.querySelectorAll(".payment-method").forEach((method) => {
+        method.addEventListener("click", function () {
+          document
+            .querySelectorAll(".payment-method")
+            .forEach((m) => m.classList.remove("active"));
+          this.classList.add("active");
+          this.querySelector("input").checked = true;
+        });
+      });
+
+      function placeOrder() {
+        alert("Siparişiniz alındı! Teşekkür ederiz.");
+        window.location.href = "index.html";
+      }
+    </script>
+  </body>
+</html>

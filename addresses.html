@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adreslerim - AkıllıShop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <style>
+      .addresses-page {
+        padding: 3rem 0;
+      }
+
+      .addresses-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 2rem;
+      }
+
+      .profile-sidebar {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        height: fit-content;
+      }
+
+      .profile-user {
+        text-align: center;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1.5rem;
+      }
+
+      .profile-avatar {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: var(--primary-color);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        margin: 0 auto 1rem;
+      }
+
+      .profile-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .profile-menu a {
+        padding: 0.875rem 1rem;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: var(--text-dark);
+        transition: var(--transition);
+      }
+
+      .profile-menu a:hover,
+      .profile-menu a.active {
+        background: var(--primary-color);
+        color: white;
+      }
+
+      .addresses-content {
+        background: white;
+        border-radius: var(--radius-xl);
+        padding: 2rem;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .addresses-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+      }
+
+      .address-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .address-card {
+        border: 2px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        position: relative;
+        transition: var(--transition);
+      }
+
+      .address-card:hover {
+        border-color: var(--primary-color);
+      }
+
+      .address-card.default {
+        border-color: var(--primary-color);
+        background: #f0f7ff;
+      }
+
+      .address-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: var(--primary-color);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: var(--radius-sm);
+        font-size: 0.75rem;
+      }
+
+      .address-type {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      .address-details h4 {
+        margin-bottom: 0.5rem;
+      }
+
+      .address-details p {
+        color: var(--text-light);
+        line-height: 1.6;
+        margin-bottom: 0.25rem;
+      }
+
+      .address-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn-add-address {
+        border: 2px dashed var(--border-color);
+        border-radius: var(--radius-lg);
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        color: var(--text-light);
+        transition: var(--transition);
+        cursor: pointer;
+        min-height: 200px;
+      }
+
+      .btn-add-address:hover {
+        border-color: var(--primary-color);
+        color: var(--primary-color);
+      }
+
+      .btn-add-address i {
+        font-size: 2.5rem;
+      }
+
+      @media (max-width: 768px) {
+        .addresses-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="main-header">
+      <div class="header-main">
+        <div class="container">
+          <a href="index.html" class="logo"
+            ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
+          >
+          <div class="header-actions">
+            <a href="profile.html" class="header-action"
+              ><i class="fas fa-user"></i
+            ></a>
+            <a href="cart.html" class="header-action"
+              ><i class="fas fa-shopping-cart"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container addresses-page">
+      <div class="addresses-layout">
+        <aside class="profile-sidebar">
+          <div class="profile-user">
+            <div class="profile-avatar">AY</div>
+            <h3>Ahmet Yılmaz</h3>
+            <p>ahmet@email.com</p>
+          </div>
+          <nav class="profile-menu">
+            <a href="profile.html"
+              ><i class="fas fa-user"></i> Profil Bilgileri</a
+            >
+            <a href="orders.html"
+              ><i class="fas fa-shopping-bag"></i> Siparişlerim</a
+            >
+            <a href="addresses.html" class="active"
+              ><i class="fas fa-map-marker-alt"></i> Adreslerim</a
+            >
+            <a href="favorites.html"
+              ><i class="fas fa-heart"></i> Favorilerim</a
+            >
+            <a href="#"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a>
+          </nav>
+        </aside>
+
+        <div class="addresses-content">
+          <div class="addresses-header">
+            <h3>Kaytlı Adreslerim</h3>
+            <button class="btn btn-primary" onclick="addAddress()">
+              <i class="fas fa-plus"></i> Yeni Adres Ekle
+            </button>
+          </div>
+
+          <div class="address-grid">
+            <div class="address-card default">
+              <span class="address-badge">Varsayılan</span>
+              <div class="address-type">
+                <i class="fas fa-home"></i>
+                <span>Ev</span>
+              </div>
+              <div class="address-details">
+                <h4>Ahmet Yılmaz</h4>
+                <p>Atatürk Mahallesi, Cumhuriyet Caddesi No:15 D:8</p>
+                <p>Kadıköy / İstanbul</p>
+                <p>34700</p>
+                <p>0532 123 45 67</p>
+              </div>
+              <div class="address-actions">
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-edit"></i> Düzenle
+                </button>
+                <button class="btn btn-sm btn-danger">
+                  <i class="fas fa-trash"></i> Sil
+                </button>
+              </div>
+            </div>
+
+            <div class="address-card">
+              <div class="address-type">
+                <i class="fas fa-briefcase"></i>
+                <span>İş</span>
+              </div>
+              <div class="address-details">
+                <h4>Ahmet Yılmaz</h4>
+                <p>Levent Mahallesi, Eski Büyükdere Caddesi No:199</p>
+                <p>Şişli / İstanbul</p>
+                <p>34394</p>
+                <p>0532 123 45 67</p>
+              </div>
+              <div class="address-actions">
+                <button class="btn btn-sm btn-secondary">
+                  <i class="fas fa-edit"></i> Düzenle
+                </button>
+                <button class="btn btn-sm btn-primary">
+                  <i class="fas fa-check"></i> Varsayılan Yap
+                </button>
+              </div>
+            </div>
+
+            <button class="btn-add-address" onclick="addAddress()">
+              <i class="fas fa-plus-circle"></i>
+              <span>Yeni Adres Ekle</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      function addAddress() {
+        alert("Yeni adres ekleme modalı açılacak");
+      }
+    </script>
+  </body>
+</html>

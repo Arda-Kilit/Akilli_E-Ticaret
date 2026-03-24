@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ürün Yönetimi - Admin Panel</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+  </head>
+  <body class="admin-body">
+    <div class="admin-wrapper">
+      <!-- Sidebar -->
+      <aside class="admin-sidebar">
+        <div class="admin-sidebar-header">
+          <div class="logo">
+            <i class="fas fa-shopping-bag"></i><span>AkıllıShop</span>
+          </div>
+        </div>
+        <div class="admin-user-info">
+          <h4>Admin Kullanıcı</h4>
+          <span>admin@akillishop.com</span>
+        </div>
+        <nav class="admin-nav">
+          <div class="admin-nav-title">Ana Menü</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li>
+              <a href="products.html" class="active"
+                ><i class="fas fa-box"></i> Ürünler</a
+              >
+            </li>
+            <li>
+              <a href="orders.html"
+                ><i class="fas fa-shopping-cart"></i> Siparişler
+                <span class="badge">12</span></a
+              >
+            </li>
+            <li>
+              <a href="users.html"><i class="fas fa-users"></i> Kullanıcılar</a>
+            </li>
+            <li>
+              <a href="categories.html"
+                ><i class="fas fa-tags"></i> Kategoriler</a
+              >
+            </li>
+          </ul>
+          <div class="admin-nav-title" style="margin-top: 2rem">Sistem</div>
+          <ul class="admin-nav-menu">
+            <li>
+              <a href="settings.html"><i class="fas fa-cog"></i> Ayarlar</a>
+            </li>
+            <li>
+              <a href="#" onclick="logout()"
+                ><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="admin-main">
+        <div class="admin-header">
+          <h1>Ürün Yönetimi</h1>
+          <a href="product-add.html" class="btn btn-primary"
+            ><i class="fas fa-plus"></i> Yeni Ürün Ekle</a
+          >
+        </div>
+
+        <!-- Filters -->
+        <div class="data-card" style="margin-bottom: 2rem">
+          <div class="data-card-header">
+            <div style="display: flex; gap: 1rem">
+              <input
+                type="text"
+                placeholder="Ürün ara..."
+                style="
+                  padding: 0.5rem 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: var(--radius-md);
+                  min-width: 300px;
+                "
+              />
+              <select
+                style="
+                  padding: 0.5rem 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: var(--radius-md);
+                "
+              >
+                <option>Tüm Kategoriler</option>
+                <option>Elektronik</option>
+                <option>Giyim</option>
+              </select>
+              <select
+                style="
+                  padding: 0.5rem 1rem;
+                  border: 1px solid var(--border-color);
+                  border-radius: var(--radius-md);
+                "
+              >
+                <option>Tüm Durumlar</option>
+                <option>Aktif</option>
+                <option>Pasif</option>
+                <option>Stokta Yok</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Table -->
+        <div class="data-card">
+          <div class="data-card-header">
+            <h3>Tüm Ürünler (156)</h3>
+            <div>
+              <button class="btn btn-sm btn-secondary">
+                <i class="fas fa-download"></i> Dışa Aktar
+              </button>
+            </div>
+          </div>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ürün</th>
+                <th>Kategori</th>
+                <th>Fiyat</th>
+                <th>Stok</th>
+                <th>Durum</th>
+                <th>İşlemler</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 1rem">
+                    <img
+                      src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100"
+                      alt=""
+                      style="
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                        border-radius: var(--radius-md);
+                      "
+                    />
+                    <div>
+                      <div style="font-weight: 600">
+                        Premium Kablosuz Kulaklık
+                      </div>
+                      <div style="font-size: 0.75rem; color: var(--text-light)">
+                        SKU: PRD-001
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>Elektronik</td>
+                <td>₺1.299,99</td>
+                <td>45 adet</td>
+                <td><span class="status active">Aktif</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit" onclick="editProduct(1)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" onclick="deleteProduct(1)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 1rem">
+                    <img
+                      src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100"
+                      alt=""
+                      style="
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                        border-radius: var(--radius-md);
+                      "
+                    />
+                    <div>
+                      <div style="font-weight: 600">Akıllı Saat Pro</div>
+                      <div style="font-size: 0.75rem; color: var(--text-light)">
+                        SKU: PRD-002
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>Giyim</td>
+                <td>₺2.499,99</td>
+                <td>12 adet</td>
+                <td><span class="status active">Aktif</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit" onclick="editProduct(2)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" onclick="deleteProduct(2)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div style="display: flex; align-items: center; gap: 1rem">
+                    <img
+                      src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100"
+                      alt=""
+                      style="
+                        width: 50px;
+                        height: 50px;
+                        object-fit: cover;
+                        border-radius: var(--radius-md);
+                      "
+                    />
+                    <div>
+                      <div style="font-weight: 600">Spor Ayakkabı</div>
+                      <div style="font-size: 0.75rem; color: var(--text-light)">
+                        SKU: PRD-003
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>Spor</td>
+                <td>₺899,99</td>
+                <td>0 adet</td>
+                <td><span class="status cancelled">Stokta Yok</span></td>
+                <td>
+                  <div class="table-actions">
+                    <button class="edit" onclick="editProduct(3)">
+                      <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="delete" onclick="deleteProduct(3)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Pagination -->
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 1rem 1.5rem;
+              border-top: 1px solid var(--border-color);
+            "
+          >
+            <span style="color: var(--text-light); font-size: 0.875rem"
+              >1-10 / 156 ürün gösteriliyor</span
+            >
+            <div class="pagination">
+              <a href="#"><i class="fas fa-chevron-left"></i></a>
+              <a href="#" class="active">1</a>
+              <a href="#">2</a>
+              <a href="#">3</a>
+              <span>...</span>
+              <a href="#">16</a>
+              <a href="#"><i class="fas fa-chevron-right"></i></a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      function editProduct(id) {
+        window.location.href = "product-edit.html?id=" + id;
+      }
+
+      function deleteProduct(id) {
+        if (confirm("Bu ürünü silmek istediğinize emin misiniz?")) {
+          alert("Ürün silindi!");
+        }
+      }
+
+      function logout() {
+        if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+          window.location.href = "index.html";
+        }
+      }
+    </script>
+  </body>
+</html>

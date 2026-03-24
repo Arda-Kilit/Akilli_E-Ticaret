@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Giriş - AkıllıShop</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../assets/css/style.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      }
+
+      .admin-login-box {
+        background: white;
+        padding: 3rem;
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-xl);
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+      }
+
+      .admin-login-box .logo {
+        justify-content: center;
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .admin-login-box h2 {
+        color: var(--text-dark);
+        margin-bottom: 0.5rem;
+      }
+
+      .admin-login-box p {
+        color: var(--text-light);
+        margin-bottom: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+        text-align: left;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 0.875rem;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+      }
+
+      .btn-admin {
+        width: 100%;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
+
+      .back-link {
+        display: inline-block;
+        margin-top: 1.5rem;
+        color: var(--text-light);
+      }
+
+      .back-link:hover {
+        color: var(--primary-color);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="admin-login-box">
+      <a href="../index.html" class="logo">
+        <i class="fas fa-shopping-bag"></i>
+        <span>AkıllıShop</span>
+      </a>
+      <h2>Admin Paneli</h2>
+      <p>Yönetim alanına erişmek için giriş yapın</p>
+
+      <form
+        onsubmit="
+          event.preventDefault();
+          loginAdmin();
+        "
+      >
+        <div class="form-group">
+          <label>Kullanıcı Adı</label>
+          <input type="text" placeholder="admin" required />
+        </div>
+        <div class="form-group">
+          <label>Şifre</label>
+          <input type="password" placeholder="••••••••" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-admin">
+          <i class="fas fa-sign-in-alt"></i> Giriş Yap
+        </button>
+      </form>
+
+      <a href="../index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Siteye Dön
+      </a>
+    </div>
+
+    <script>
+      function loginAdmin() {
+        alert("Admin girişi başarılı!");
+        window.location.href = "dashboard.html";
+      }
+    </script>
+  </body>
+</html>
