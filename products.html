@@ -23,9 +23,9 @@
 
       .filters-sidebar {
         background: white;
-        border-radius: var(--radius-xl);
+        border-radius: 1.5rem;
         padding: 1.5rem;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         height: fit-content;
         position: sticky;
         top: 100px;
@@ -34,7 +34,7 @@
       .filter-section {
         margin-bottom: 1.5rem;
         padding-bottom: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .filter-section:last-child {
@@ -49,6 +49,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        color: #0f172a;
       }
 
       .filter-list {
@@ -62,17 +63,14 @@
         align-items: center;
         gap: 0.5rem;
         cursor: pointer;
-      }
-
-      .filter-item input[type="checkbox"] {
-        width: 1.125rem;
-        height: 1.125rem;
-        accent-color: var(--primary-color);
-      }
-
-      .filter-item span {
-        color: var(--text-light);
         font-size: 0.875rem;
+        color: #475569;
+      }
+
+      .filter-item input {
+        width: 1rem;
+        height: 1rem;
+        accent-color: #6366f1;
       }
 
       .price-range {
@@ -84,8 +82,8 @@
       .price-range input {
         width: 100%;
         padding: 0.5rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
       }
 
       .products-header {
@@ -95,12 +93,13 @@
         margin-bottom: 1.5rem;
         padding: 1rem 1.5rem;
         background: white;
-        border-radius: var(--radius-lg);
-        box-shadow: var(--shadow-sm);
+        border-radius: 1rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .products-count {
-        color: var(--text-light);
+        color: #64748b;
+        font-size: 0.875rem;
       }
 
       .products-sort {
@@ -111,8 +110,8 @@
 
       .products-sort select {
         padding: 0.5rem 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
         cursor: pointer;
       }
 
@@ -131,25 +130,39 @@
 
       .pagination a,
       .pagination span {
-        width: 40px;
-        height: 40px;
+        width: 2.5rem;
+        height: 2.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
-        border-radius: var(--radius-md);
-        transition: var(--transition);
+        border-radius: 0.5rem;
+        transition: all 0.2s ease;
       }
 
       .pagination a {
         background: white;
-        color: var(--text-dark);
-        box-shadow: var(--shadow-sm);
+        color: #334155;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
       }
 
       .pagination a:hover,
       .pagination a.active {
-        background: var(--primary-color);
+        background: #6366f1;
         color: white;
+      }
+
+      .no-results {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: white;
+        border-radius: 1rem;
+      }
+
+      .no-results i {
+        font-size: 4rem;
+        color: #cbd5e1;
+        margin-bottom: 1rem;
       }
 
       .mobile-filter-btn {
@@ -173,6 +186,7 @@
           z-index: 1000;
           border-radius: 0;
           overflow-y: auto;
+          background: white;
         }
 
         .filters-sidebar.active {
@@ -186,7 +200,10 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+    </div>
+
     <header class="main-header">
       <div class="header-main">
         <div class="container">
@@ -195,17 +212,29 @@
           >
           <div class="search-bar">
             <form>
-              <input type="text" placeholder="Ürün ara..." />
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Ürün ara..."
+                autocomplete="off"
+              />
               <button type="submit"><i class="fas fa-search"></i></button>
             </form>
           </div>
           <div class="header-actions">
-            <a href="login.html" class="header-action"
-              ><i class="fas fa-user"></i
-            ></a>
+            <a href="login.html" class="header-action" id="desktopLoginLink"
+              ><i class="fas fa-user"></i><span>Giriş</span></a
+            >
+            <a
+              href="profile.html"
+              class="header-action"
+              id="desktopProfileLink"
+              style="display: none"
+              ><i class="fas fa-user-check"></i><span>Profilim</span></a
+            >
             <a href="cart.html" class="header-action"
-              ><i class="fas fa-shopping-cart"></i
-              ><span class="cart-count">3</span></a
+              ><i class="fas fa-shopping-cart"></i><span>Sepet</span
+              ><span class="cart-count" id="cartCount">0</span></a
             >
           </div>
         </div>
@@ -223,7 +252,7 @@
       </button>
 
       <div class="products-layout">
-        <aside class="filters-sidebar" id="filters-sidebar">
+        <aside class="filters-sidebar" id="filtersSidebar">
           <div
             style="
               display: flex;
@@ -236,7 +265,12 @@
             <h3>Filtreler</h3>
             <button
               onclick="toggleFilters()"
-              style="background: none; font-size: 1.5rem"
+              style="
+                background: none;
+                font-size: 1.5rem;
+                border: none;
+                cursor: pointer;
+              "
             >
               <i class="fas fa-times"></i>
             </button>
@@ -244,375 +278,65 @@
 
           <div class="filter-section">
             <div class="filter-title">Kategoriler</div>
-            <div class="filter-list">
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>Elektronik (234)</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>Giyim (543)</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>Ev & Yaşam (321)</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>Spor (187)</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>Kozmetik (98)</span></label
-              >
-            </div>
+            <div class="filter-list" id="categoryFilters"></div>
           </div>
 
           <div class="filter-section">
             <div class="filter-title">Fiyat Aralığı</div>
             <div class="price-range">
-              <input type="number" placeholder="Min" />
+              <input
+                type="number"
+                class="price-input price-min"
+                placeholder="Min"
+              />
               <span>-</span>
-              <input type="number" placeholder="Max" />
+              <input
+                type="number"
+                class="price-input price-max"
+                placeholder="Max"
+              />
             </div>
           </div>
 
-          <div class="filter-section">
-            <div class="filter-title">Değerlendirme</div>
-            <div class="filter-list">
-              <label class="filter-item"
-                ><input type="checkbox" />
-                <span>⭐⭐⭐⭐⭐ ve üzeri</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>⭐⭐⭐⭐ ve üzeri</span></label
-              >
-              <label class="filter-item"
-                ><input type="checkbox" /> <span>⭐⭐⭐ ve üzeri</span></label
-              >
-            </div>
-          </div>
-
-          <button class="btn btn-primary w-100">Filtreleri Uygula</button>
+          <button class="btn btn-primary w-100 clear-filters">
+            Filtreleri Temizle
+          </button>
         </aside>
 
         <div>
           <div class="products-header">
-            <span class="products-count">Toplam 48 ürün gösteriliyor</span>
+            <span class="products-count result-count">0 ürün bulundu</span>
             <div class="products-sort">
               <span>Sırala:</span>
-              <select>
-                <option>En Yeniler</option>
-                <option>Fiyat: Düşükten Yükseğe</option>
-                <option>Fiyat: Yüksekten Düşüğe</option>
-                <option>En Çok Satanlar</option>
-                <option>En Çok Değerlendirilen</option>
+              <select class="sort-select">
+                <option value="newest">En Yeniler</option>
+                <option value="price_asc">Fiyat: Düşükten Yükseğe</option>
+                <option value="price_desc">Fiyat: Yüksekten Düşüğe</option>
+                <option value="popular">En Çok Satanlar</option>
               </select>
             </div>
           </div>
 
-          <div class="products-grid">
-            <!-- Ürün Kartları (8 adet) -->
-            <div class="product-card">
-              <span class="product-badge">-20%</span>
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Elektronik</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Premium Kablosuz Kulaklık</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star-half-alt"></i
-                  ></span>
-                  <span class="rating-count">(128)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺1.299,99</span>
-                  <span class="old-price">₺1.599,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
+          <div class="products-grid" id="productsGrid"></div>
 
-            <div class="product-card">
-              <span class="product-badge new">YENİ</span>
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Giyim</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Akıllı Saat Pro</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i
-                  ></span>
-                  <span class="rating-count">(89)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺2.499,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Spor</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Spor Ayakkabı</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="far fa-star"></i
-                  ></span>
-                  <span class="rating-count">(245)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺899,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <span class="product-badge bestseller">ÇOK SATAN</span>
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Elektronik</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Aynasız Fotoğraf Makinesi</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star-half-alt"></i
-                  ></span>
-                  <span class="rating-count">(67)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺12.499,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Aksesuar</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Kulaklık Standı</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i
-                  ></span>
-                  <span class="rating-count">(342)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺199,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <span class="product-badge">-15%</span>
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Elektronik</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Bluetooth 5.0 Adaptör</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="far fa-star"></i
-                  ></span>
-                  <span class="rating-count">(156)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺149,99</span>
-                  <span class="old-price">₺179,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Aksesuar</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Kulaklık Taşıma Çantası</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star-half-alt"></i
-                  ></span>
-                  <span class="rating-count">(89)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺89,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-
-            <div class="product-card">
-              <span class="product-badge new">YENİ</span>
-              <div class="product-image">
-                <img
-                  src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=400"
-                  alt=""
-                />
-                <div class="product-actions">
-                  <button class="quick-view"><i class="fas fa-eye"></i></button>
-                  <button class="add-to-cart">
-                    <i class="fas fa-shopping-cart"></i>
-                  </button>
-                </div>
-              </div>
-              <div class="product-info">
-                <span class="product-category">Elektronik</span>
-                <h3 class="product-title">
-                  <a href="product-detail.html">Kablosuz Şarj Standı</a>
-                </h3>
-                <div class="product-rating">
-                  <span class="stars"
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i><i class="fas fa-star"></i
-                    ><i class="fas fa-star"></i
-                  ></span>
-                  <span class="rating-count">(423)</span>
-                </div>
-                <div class="product-price">
-                  <span class="current-price">₺299,99</span>
-                </div>
-                <button class="add-to-cart">
-                  <i class="fas fa-shopping-cart"></i> Sepete Ekle
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div class="pagination">
-            <a href="#"><i class="fas fa-chevron-left"></i></a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <span>...</span>
-            <a href="#">8</a>
-            <a href="#"><i class="fas fa-chevron-right"></i></a>
-          </div>
+          <div class="pagination" id="pagination"></div>
         </div>
       </div>
     </main>
 
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
     <script>
       function toggleFilters() {
-        document.getElementById("filters-sidebar").classList.toggle("active");
+        document.getElementById("filtersSidebar").classList.toggle("active");
       }
+
+      window.addEventListener("load", () => {
+        const spinner = document.getElementById("loadingSpinner");
+        if (spinner) spinner.classList.add("hide");
+      });
     </script>
   </body>
 </html>

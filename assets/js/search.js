@@ -1,5 +1,5 @@
 /**
- * ARAMA VE FİLTRELEME
+ * ARAMA VE FİLTRELEME SİSTEMİ
  */
 
 const Search = {
@@ -8,20 +8,63 @@ const Search = {
         price_min: '',
         price_max: '',
         sort: 'newest',
-        page: 1
+        page: 1,
+        q: ''
     },
 
     init() {
+        this.loadFiltersFromURL();
         this.initFilters();
-        this.initPriceSlider();
         this.initSort();
-        this.initPagination();
+        this.loadProducts();
+    },
+
+    loadFiltersFromURL() {
+        const params = new URLSearchParams(window.location.search);
+        this.filters.q = params.get('q') || '';
+        this.filters.category = params.get('category') || '';
+        this.filters.price_min = params.get('price_min') || '';
+        this.filters.price_max = params.get('price_max') || '';
+        this.filters.sort = params.get('sort') || 'newest';
+        this.filters.page = parseInt(params.get('page')) || 1;
+
+        // Arama inputuna değeri yaz
+        const searchInput = document.querySelector('.search-bar input');
+        if (searchInput && this.filters.q) {
+            searchInput.value = this.filters.q;
+        }
+
+        // Kategori checkbox'larını işaretle
+        if (this.filters.category) {
+            const checkbox = document.querySelector(`.filter-category[value="${this.filters.category}"]`);
+            if (checkbox) checkbox.checked = true;
+        }
+
+        // Fiyat inputlarını doldur
+        if (this.filters.price_min) {
+            const minInput = document.querySelector('.price-min');
+            if (minInput) minInput.value = this.filters.price_min;
+        }
+        if (this.filters.price_max) {
+            const maxInput = document.querySelector('.price-max');
+            if (maxInput) maxInput.value = this.filters.price_max;
+        }
+
+        // Sıralama select'ini ayarla
+        const sortSelect = document.querySelector('.sort-select');
+        if (sortSelect) sortSelect.value = this.filters.sort;
     },
 
     initFilters() {
         // Kategori filtreleri
         document.querySelectorAll('.filter-category').forEach(checkbox => {
             checkbox.addEventListener('change', () => {
+                if (checkbox.checked) {
+                    this.filters.category = checkbox.value;
+                } else if (this.filters.category === checkbox.value) {
+                    this.filters.category = '';
+                }
+                this.filters.page = 1;
                 this.applyFilters();
             });
         });
@@ -30,8 +73,9 @@ const Search = {
         const priceInputs = document.querySelectorAll('.price-input');
         priceInputs.forEach(input => {
             input.addEventListener('change', () => {
-                this.filters.price_min = document.querySelector('.price-min').value;
-                this.filters.price_max = document.querySelector('.price-max').value;
+                this.filters.price_min = document.querySelector('.price-min')?.value || '';
+                this.filters.price_max = document.querySelector('.price-max')?.value || '';
+                this.filters.page = 1;
                 this.applyFilters();
             });
         });
@@ -41,181 +85,168 @@ const Search = {
             e.preventDefault();
             this.clearFilters();
         });
-    },
 
-    initPriceSlider() {
-        const slider = document.querySelector('.price-slider');
-        if (!slider) return;
-
-        noUiSlider.create(slider, {
-            start: [0, 10000],
-            connect: true,
-            range: {
-                'min': 0,
-                'max': 50000
-            },
-            step: 100
-        });
-
-        slider.noUiSlider.on('update', (values) => {
-            document.querySelector('.price-min-display').textContent = APP.formatPrice(values[0]);
-            document.querySelector('.price-max-display').textContent = APP.formatPrice(values[1]);
-        });
-
-        slider.noUiSlider.on('change', (values) => {
-            this.filters.price_min = values[0];
-            this.filters.price_max = values[1];
-            this.applyFilters();
-        });
+        // Arama formu
+        const searchForm = document.querySelector('.search-bar form');
+        if (searchForm) {
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const input = searchForm.querySelector('input');
+                this.filters.q = input?.value.trim() || '';
+                this.filters.page = 1;
+                this.applyFilters();
+            });
+        }
     },
 
     initSort() {
         document.querySelector('.sort-select')?.addEventListener('change', (e) => {
             this.filters.sort = e.target.value;
+            this.filters.page = 1;
             this.applyFilters();
         });
     },
 
-    initPagination() {
-        document.querySelectorAll('.pagination a').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.filters.page = parseInt(link.dataset.page);
-                this.applyFilters();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            });
-        });
-    },
-
     applyFilters() {
-        const params = new URLSearchParams(window.location.search);
+        const params = new URLSearchParams();
+        if (this.filters.q) params.set('q', this.filters.q);
+        if (this.filters.category) params.set('category', this.filters.category);
+        if (this.filters.price_min) params.set('price_min', this.filters.price_min);
+        if (this.filters.price_max) params.set('price_max', this.filters.price_max);
+        if (this.filters.sort) params.set('sort', this.filters.sort);
+        if (this.filters.page > 1) params.set('page', this.filters.page);
 
-        // Mevcut arama terimini koru
-        const searchQuery = params.get('q');
-        if (searchQuery) params.set('q', searchQuery);
+        const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+        window.history.pushState({}, '', newUrl);
 
-        // Filtreleri ekle
-        Object.keys(this.filters).forEach(key => {
-            if (this.filters[key]) {
-                params.set(key, this.filters[key]);
-            } else {
-                params.delete(key);
-            }
-        });
-
-        // URL'i güncelle ve sayfayı yenile
-        window.history.pushState({}, '', `${window.location.pathname}?${params}`);
-        this.fetchResults(params);
+        this.loadProducts();
     },
 
-    async fetchResults(params) {
+    async loadProducts() {
         APP.showLoading();
 
         try {
-            const response = await fetch(`${APP.baseUrl}api/product_api.php?action=filter&${params}`);
+            const params = new URLSearchParams();
+            params.set('action', 'list');
+            params.set('page', this.filters.page);
+            params.set('sort', this.filters.sort);
+            if (this.filters.q) params.set('search', this.filters.q);
+            if (this.filters.category) params.set('category', this.filters.category);
+            if (this.filters.price_min) params.set('min_price', this.filters.price_min);
+            if (this.filters.price_max) params.set('max_price', this.filters.price_max);
+
+            const response = await fetch(`${APP.config.baseUrl}${APP.config.apiEndpoint}product_api.php?${params}`);
             const data = await response.json();
 
             if (data.success) {
-                this.updateProductGrid(data.products);
+                this.renderProductGrid(data.products);
                 this.updatePagination(data.pagination);
-                this.updateResultCount(data.total);
+                this.updateResultCount(data.pagination.total_items);
+            } else {
+                console.error('Ürün yüklenirken hata:', data.message);
             }
         } catch (error) {
-            console.error('Filtreleme hatası:', error);
+            console.error('Ürünler yüklenirken hata:', error);
+            APP.showToast('Ürünler yüklenirken hata oluştu!', 'error');
         } finally {
             APP.hideLoading();
         }
     },
 
-    updateProductGrid(products) {
+    renderProductGrid(products) {
         const grid = document.querySelector('.products-grid');
         if (!grid) return;
 
-        if (products.length === 0) {
+        if (!products || products.length === 0) {
             grid.innerHTML = `
                 <div class="no-results">
                     <i class="fas fa-search"></i>
                     <h3>Sonuç Bulunamadı</h3>
                     <p>Farklı arama kriterleri deneyin.</p>
+                    <button class="btn btn-primary clear-filters">Filtreleri Temizle</button>
                 </div>
             `;
             return;
         }
 
-        grid.innerHTML = products.map(product => `
-            <div class="product-card">
-                ${product.discount ? `<span class="product-badge">-${product.discount}%</span>` : ''}
-                <button class="product-wishlist" data-product-id="${product.id}">
-                    <i class="far fa-heart"></i>
-                </button>
-                <div class="product-image">
-                    <img src="${product.image}" alt="${product.name}" loading="lazy">
-                    <div class="product-actions">
-                        <button class="quick-view" data-product-id="${product.id}">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button class="add-to-cart" data-product-id="${product.id}">
-                            <i class="fas fa-shopping-cart"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="product-info">
-                    <span class="product-category">${product.category}</span>
-                    <h3 class="product-title">
-                        <a href="product-detail.php?id=${product.id}">${product.name}</a>
-                    </h3>
-                    <div class="product-rating">
-                        <span class="stars">${this.renderStars(product.rating)}</span>
-                        <span class="rating-count">(${product.review_count})</span>
-                    </div>
-                    <div class="product-price">
-                        <span class="current-price">${APP.formatPrice(product.price)}</span>
-                        ${product.old_price ? `<span class="old-price">${APP.formatPrice(product.old_price)}</span>` : ''}
-                    </div>
-                    <button class="add-to-cart" data-product-id="${product.id}">
-                        <i class="fas fa-shopping-cart"></i> Sepete Ekle
+        const isFavorite = (id) => APP.state.favorites.has(id);
+
+        grid.innerHTML = products.map(product => {
+            const price = parseFloat(product.sale_price || product.price);
+            const oldPrice = product.sale_price ? parseFloat(product.price) : null;
+            const discount = oldPrice ? Math.round((1 - price / oldPrice) * 100) : 0;
+
+            return `
+                <div class="product-card">
+                    ${discount > 0 ? `<span class="product-badge">-${discount}%</span>` : ''}
+                    ${product.is_new ? `<span class="product-badge new">YENİ</span>` : ''}
+                    <button class="product-wishlist ${isFavorite(product.id) ? 'active' : ''}" data-product-id="${product.id}">
+                        <i class="${isFavorite(product.id) ? 'fas' : 'far'} fa-heart"></i>
                     </button>
+                    <div class="product-image">
+                        <img src="${product.image || 'https://via.placeholder.com/400'}" alt="${APP.escapeHtml(product.name)}" loading="lazy">
+                        <div class="product-actions">
+                            <button class="quick-view" data-product-id="${product.id}"><i class="fas fa-eye"></i></button>
+                            <button class="add-to-cart" data-product-id="${product.id}"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">${APP.escapeHtml(product.category_name || 'Ürün')}</span>
+                        <h3 class="product-title"><a href="product-detail.html?id=${product.id}">${APP.escapeHtml(product.name)}</a></h3>
+                        <div class="product-price">
+                            <span class="current-price">${APP.formatPrice(price)}</span>
+                            ${oldPrice ? `<span class="old-price">${APP.formatPrice(oldPrice)}</span>` : ''}
+                        </div>
+                        <button class="add-to-cart" data-product-id="${product.id}">
+                            <i class="fas fa-shopping-cart"></i> Sepete Ekle
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `).join('');
-    },
-
-    renderStars(rating) {
-        const full = Math.floor(rating);
-        const half = rating % 1 >= 0.5;
-        let html = '';
-
-        for (let i = 0; i < full; i++) html += '<i class="fas fa-star"></i>';
-        if (half) html += '<i class="fas fa-star-half-alt"></i>';
-        for (let i = full + (half ? 1 : 0); i < 5; i++) html += '<i class="far fa-star"></i>';
-
-        return html;
+            `;
+        }).join('');
     },
 
     updatePagination(pagination) {
         const container = document.querySelector('.pagination');
         if (!container) return;
 
-        let html = '';
-
-        if (pagination.current > 1) {
-            html += `<a href="#" data-page="${pagination.current - 1}" class="prev"><i class="fas fa-chevron-left"></i></a>`;
+        if (pagination.total_pages <= 1) {
+            container.innerHTML = '';
+            return;
         }
 
-        for (let i = 1; i <= pagination.total; i++) {
-            if (i === 1 || i === pagination.total || (i >= pagination.current - 2 && i <= pagination.current + 2)) {
-                html += `<a href="#" data-page="${i}" class="${i === pagination.current ? 'active' : ''}">${i}</a>`;
-            } else if (i === pagination.current - 3 || i === pagination.current + 3) {
+        let html = '';
+
+        if (pagination.current_page > 1) {
+            html += `<a href="#" data-page="${pagination.current_page - 1}" class="prev"><i class="fas fa-chevron-left"></i></a>`;
+        }
+
+        for (let i = 1; i <= pagination.total_pages; i++) {
+            if (i === 1 || i === pagination.total_pages || (i >= pagination.current_page - 2 && i <= pagination.current_page + 2)) {
+                html += `<a href="#" data-page="${i}" class="${i === pagination.current_page ? 'active' : ''}">${i}</a>`;
+            } else if (i === pagination.current_page - 3 || i === pagination.current_page + 3) {
                 html += `<span>...</span>`;
             }
         }
 
-        if (pagination.current < pagination.total) {
-            html += `<a href="#" data-page="${pagination.current + 1}" class="next"><i class="fas fa-chevron-right"></i></a>`;
+        if (pagination.current_page < pagination.total_pages) {
+            html += `<a href="#" data-page="${pagination.current_page + 1}" class="next"><i class="fas fa-chevron-right"></i></a>`;
         }
 
         container.innerHTML = html;
-        this.initPagination();
+
+        // Pagination click eventleri
+        container.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const page = parseInt(link.dataset.page);
+                if (page && !isNaN(page)) {
+                    this.filters.page = page;
+                    this.applyFilters();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+            });
+        });
     },
 
     updateResultCount(count) {
@@ -231,7 +262,8 @@ const Search = {
             price_min: '',
             price_max: '',
             sort: 'newest',
-            page: 1
+            page: 1,
+            q: ''
         };
 
         // Tüm checkboxları temizle
@@ -243,6 +275,14 @@ const Search = {
             priceInputs[0].value = '';
             priceInputs[1].value = '';
         }
+
+        // Arama inputunu temizle
+        const searchInput = document.querySelector('.search-bar input');
+        if (searchInput) searchInput.value = '';
+
+        // Sıralama select'ini sıfırla
+        const sortSelect = document.querySelector('.sort-select');
+        if (sortSelect) sortSelect.value = 'newest';
 
         this.applyFilters();
     }

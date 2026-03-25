@@ -22,8 +22,8 @@
 
       .auth-container {
         background: white;
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-xl);
+        border-radius: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         width: 100%;
         max-width: 500px;
         padding: 3rem;
@@ -38,11 +38,7 @@
         left: 0;
         right: 0;
         height: 5px;
-        background: linear-gradient(
-          90deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: linear-gradient(90deg, #6366f1, #8b5cf6);
       }
 
       .auth-logo {
@@ -58,13 +54,12 @@
       .auth-title {
         text-align: center;
         margin-bottom: 0.5rem;
-        color: var(--text-dark);
         font-size: 1.75rem;
       }
 
       .auth-subtitle {
         text-align: center;
-        color: var(--text-light);
+        color: #64748b;
         margin-bottom: 2rem;
       }
 
@@ -82,7 +77,7 @@
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
-        color: var(--text-dark);
+        color: #0f172a;
       }
 
       .input-group {
@@ -94,43 +89,43 @@
         left: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-light);
+        color: #94a3b8;
       }
 
       .input-group input {
         width: 100%;
         padding: 0.875rem 1rem 0.875rem 2.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
         font-size: 1rem;
-        transition: var(--transition);
+        transition: all 0.3s ease;
       }
 
       .input-group input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
       }
 
       .password-strength {
         height: 4px;
-        background: var(--border-color);
+        background: #e2e8f0;
         border-radius: 2px;
         margin-top: 0.5rem;
         overflow: hidden;
-        position: relative;
       }
 
       .password-strength-bar {
         height: 100%;
         width: 0;
-        transition: all 0.3s;
+        transition: all 0.3s ease;
         border-radius: 2px;
       }
 
       .password-strength-text {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
         margin-top: 0.25rem;
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .terms {
@@ -139,16 +134,16 @@
         gap: 0.5rem;
         margin-bottom: 1.5rem;
         font-size: 0.875rem;
-        color: var(--text-light);
+        color: #64748b;
       }
 
-      .terms input[type="checkbox"] {
+      .terms input {
         margin-top: 0.25rem;
-        accent-color: var(--primary-color);
+        accent-color: #6366f1;
       }
 
       .terms a {
-        color: var(--primary-color);
+        color: #6366f1;
         font-weight: 500;
       }
 
@@ -161,15 +156,31 @@
 
       .auth-footer {
         text-align: center;
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .auth-footer a {
-        color: var(--primary-color);
+        color: #6366f1;
         font-weight: 600;
       }
 
+      .alert-error {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+      }
+
       @media (max-width: 480px) {
+        .auth-container {
+          padding: 2rem;
+        }
+
         .form-row {
           grid-template-columns: 1fr;
         }
@@ -252,7 +263,6 @@
                 name="password"
                 placeholder="••••••••"
                 required
-                oninput="checkPasswordStrength(this)"
               />
             </div>
             <div class="password-strength">
@@ -296,50 +306,9 @@
       </div>
     </div>
 
-    <script>
-      function checkPasswordStrength(input) {
-        const password = input.value;
-        const bar = document.getElementById("strength-bar");
-        const text = document.getElementById("strength-text");
+    <div class="toast-container" id="toastContainer"></div>
 
-        let strength = 0;
-        if (password.length >= 6) strength++;
-        if (password.length >= 10) strength++;
-        if (/[A-Z]/.test(password)) strength++;
-        if (/[0-9]/.test(password)) strength++;
-        if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-        const colors = ["#ef4444", "#f59e0b", "#3b82f6", "#10b981", "#059669"];
-        const texts = ["Çok Zayıf", "Zayıf", "Orta", "Güçlü", "Çok Güçlü"];
-
-        bar.style.width = `${(strength / 5) * 100}%`;
-        bar.style.backgroundColor = colors[strength - 1] || "#ef4444";
-        text.textContent = `Şifre gücü: ${texts[strength - 1] || "Çok Zayıf"}`;
-        text.style.color = colors[strength - 1] || "#ef4444";
-      }
-
-      document
-        .getElementById("register-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const password = this.querySelector('input[name="password"]').value;
-          const confirm = this.querySelector(
-            'input[name="confirm_password"]',
-          ).value;
-
-          if (password !== confirm) {
-            alert("Şifreler eşleşmiyor!");
-            return;
-          }
-
-          if (password.length < 6) {
-            alert("Şifre en az 6 karakter olmalıdır!");
-            return;
-          }
-
-          alert("Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...");
-          window.location.href = "login.html";
-        });
-    </script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/auth.js"></script>
   </body>
 </html>

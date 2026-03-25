@@ -22,8 +22,8 @@
 
       .auth-container {
         background: white;
-        border-radius: var(--radius-xl);
-        box-shadow: var(--shadow-xl);
+        border-radius: 2rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         width: 100%;
         max-width: 450px;
         padding: 3rem;
@@ -38,11 +38,7 @@
         left: 0;
         right: 0;
         height: 5px;
-        background: linear-gradient(
-          90deg,
-          var(--primary-color),
-          var(--secondary-color)
-        );
+        background: linear-gradient(90deg, #6366f1, #8b5cf6);
       }
 
       .auth-logo {
@@ -58,13 +54,12 @@
       .auth-title {
         text-align: center;
         margin-bottom: 0.5rem;
-        color: var(--text-dark);
         font-size: 1.75rem;
       }
 
       .auth-subtitle {
         text-align: center;
-        color: var(--text-light);
+        color: #64748b;
         margin-bottom: 2rem;
       }
 
@@ -77,18 +72,21 @@
 
       .social-btn {
         padding: 0.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
         font-weight: 500;
-        transition: var(--transition);
+        transition: all 0.3s ease;
+        background: white;
+        cursor: pointer;
       }
 
       .social-btn:hover {
-        background: var(--bg-light);
+        background: #f8fafc;
+        transform: translateY(-2px);
       }
 
       .social-btn.google {
@@ -111,14 +109,14 @@
         left: 0;
         right: 0;
         height: 1px;
-        background: var(--border-color);
+        background: #e2e8f0;
       }
 
       .divider span {
         background: white;
         padding: 0 1rem;
         position: relative;
-        color: var(--text-light);
+        color: #64748b;
         font-size: 0.875rem;
       }
 
@@ -130,7 +128,7 @@
         display: block;
         margin-bottom: 0.5rem;
         font-weight: 500;
-        color: var(--text-dark);
+        color: #0f172a;
       }
 
       .input-group {
@@ -142,29 +140,30 @@
         left: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-light);
+        color: #94a3b8;
       }
 
       .input-group input {
         width: 100%;
         padding: 0.875rem 1rem 0.875rem 2.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
         font-size: 1rem;
-        transition: var(--transition);
+        transition: all 0.3s ease;
       }
 
       .input-group input:focus {
-        border-color: var(--primary-color);
-        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
       }
 
-      .input-group .toggle-password {
+      .toggle-password {
         position: absolute;
         right: 1rem;
         top: 50%;
         transform: translateY(-50%);
-        color: var(--text-light);
+        color: #94a3b8;
         cursor: pointer;
       }
 
@@ -180,17 +179,18 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
-        color: var(--text-light);
+        color: #64748b;
+        cursor: pointer;
       }
 
-      .remember-me input[type="checkbox"] {
+      .remember-me input {
         width: 1rem;
         height: 1rem;
-        accent-color: var(--primary-color);
+        accent-color: #6366f1;
       }
 
       .forgot-password {
-        color: var(--primary-color);
+        color: #6366f1;
         font-weight: 500;
       }
 
@@ -207,16 +207,34 @@
 
       .auth-footer {
         text-align: center;
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .auth-footer a {
-        color: var(--primary-color);
+        color: #6366f1;
         font-weight: 600;
       }
 
-      .auth-footer a:hover {
-        text-decoration: underline;
+      .alert-error {
+        background: #fee2e2;
+        color: #dc2626;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.875rem;
+      }
+
+      @media (max-width: 480px) {
+        .auth-container {
+          padding: 2rem;
+        }
+
+        .social-login {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
@@ -236,12 +254,17 @@
         </p>
 
         <div class="social-login">
-          <button class="social-btn google" onclick="alert('Google ile giriş')">
+          <button
+            class="social-btn google"
+            onclick="APP.showToast('Google ile giriş yakında gelecek!', 'info')"
+          >
             <i class="fab fa-google"></i> Google
           </button>
           <button
             class="social-btn facebook"
-            onclick="alert('Facebook ile giriş')"
+            onclick="
+              APP.showToast('Facebook ile giriş yakında gelecek!', 'info')
+            "
           >
             <i class="fab fa-facebook-f"></i> Facebook
           </button>
@@ -275,10 +298,7 @@
                 placeholder="••••••••"
                 required
               />
-              <i
-                class="fas fa-eye toggle-password"
-                onclick="togglePassword(this)"
-              ></i>
+              <i class="fas fa-eye toggle-password"></i>
             </div>
           </div>
 
@@ -287,7 +307,9 @@
               <input type="checkbox" name="remember" />
               <span>Beni hatırla</span>
             </label>
-            <a href="#" class="forgot-password">Şifremi unuttum?</a>
+            <a href="forgot-password.html" class="forgot-password"
+              >Şifremi unuttum?</a
+            >
           </div>
 
           <button type="submit" class="btn btn-primary btn-auth">
@@ -301,29 +323,16 @@
       </div>
     </div>
 
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/main.js"></script>
     <script src="assets/js/auth.js"></script>
     <script>
-      function togglePassword(icon) {
-        const input = icon.previousElementSibling;
-        if (input.type === "password") {
-          input.type = "text";
-          icon.classList.remove("fa-eye");
-          icon.classList.add("fa-eye-slash");
-        } else {
-          input.type = "password";
-          icon.classList.remove("fa-eye-slash");
-          icon.classList.add("fa-eye");
-        }
-      }
-
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const email = this.querySelector('input[name="email"]').value;
-          alert("Giriş yapılıyor: " + email);
-          // Burada AJAX ile PHP API'ye bağlanacak
-        });
+      // Sayfa yüklendiğinde loading spinner'ı gizle
+      window.addEventListener("load", () => {
+        const spinner = document.getElementById("loadingSpinner");
+        if (spinner) spinner.classList.add("hide");
+      });
     </script>
   </body>
 </html>

@@ -23,16 +23,16 @@
 
       .profile-sidebar {
         background: white;
-        border-radius: var(--radius-xl);
+        border-radius: 1.5rem;
         padding: 1.5rem;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         height: fit-content;
       }
 
       .profile-user {
         text-align: center;
         padding-bottom: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #e2e8f0;
         margin-bottom: 1.5rem;
       }
 
@@ -40,7 +40,7 @@
         width: 100px;
         height: 100px;
         border-radius: 50%;
-        background: var(--primary-color);
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
         color: white;
         display: flex;
         align-items: center;
@@ -54,7 +54,7 @@
       }
 
       .profile-user p {
-        color: var(--text-light);
+        color: #64748b;
         font-size: 0.875rem;
       }
 
@@ -66,35 +66,31 @@
 
       .profile-menu a {
         padding: 0.875rem 1rem;
-        border-radius: var(--radius-md);
+        border-radius: 0.75rem;
         display: flex;
         align-items: center;
         gap: 0.75rem;
-        color: var(--text-dark);
-        transition: var(--transition);
+        color: #334155;
+        transition: all 0.2s ease;
       }
 
       .profile-menu a:hover,
       .profile-menu a.active {
-        background: var(--primary-color);
+        background: #6366f1;
         color: white;
-      }
-
-      .profile-menu a i {
-        width: 1.5rem;
       }
 
       .profile-content {
         background: white;
-        border-radius: var(--radius-xl);
+        border-radius: 1.5rem;
         padding: 2rem;
-        box-shadow: var(--shadow-sm);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
       }
 
       .profile-section h3 {
         margin-bottom: 1.5rem;
         padding-bottom: 1rem;
-        border-bottom: 2px solid var(--border-color);
+        border-bottom: 2px solid #e2e8f0;
       }
 
       .form-row {
@@ -116,38 +112,15 @@
       .form-group input {
         width: 100%;
         padding: 0.875rem;
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-md);
+        border: 1px solid #e2e8f0;
+        border-radius: 0.75rem;
+        transition: all 0.2s ease;
       }
 
-      .address-card {
-        border: 1px solid var(--border-color);
-        border-radius: var(--radius-lg);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        position: relative;
-      }
-
-      .address-card.default {
-        border-color: var(--primary-color);
-        background: #f0f7ff;
-      }
-
-      .address-badge {
-        position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: var(--primary-color);
-        color: white;
-        padding: 0.25rem 0.75rem;
-        border-radius: var(--radius-sm);
-        font-size: 0.75rem;
-      }
-
-      .address-actions {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
+      .form-group input:focus {
+        outline: none;
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
       }
 
       @media (max-width: 768px) {
@@ -162,7 +135,10 @@
     </style>
   </head>
   <body>
-    <!-- Header -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+    </div>
+
     <header class="main-header">
       <div class="header-main">
         <div class="container">
@@ -170,12 +146,19 @@
             ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
           >
           <div class="header-actions">
-            <a href="profile.html" class="header-action"
-              ><i class="fas fa-user"></i
-            ></a>
+            <a href="login.html" class="header-action" id="desktopLoginLink"
+              ><i class="fas fa-user"></i><span>Giriş</span></a
+            >
+            <a
+              href="profile.html"
+              class="header-action"
+              id="desktopProfileLink"
+              style="display: none"
+              ><i class="fas fa-user-check"></i><span>Profilim</span></a
+            >
             <a href="cart.html" class="header-action"
-              ><i class="fas fa-shopping-cart"></i
-              ><span class="cart-count">3</span></a
+              ><i class="fas fa-shopping-cart"></i><span>Sepet</span
+              ><span class="cart-count" id="cartCount">0</span></a
             >
           </div>
         </div>
@@ -186,11 +169,10 @@
       <div class="profile-layout">
         <aside class="profile-sidebar">
           <div class="profile-user">
-            <div class="profile-avatar">AY</div>
-            <h3>Ahmet Yılmaz</h3>
-            <p>ahmet@email.com</p>
+            <div class="profile-avatar" id="profileAvatar">AY</div>
+            <h3 id="profileName">Ahmet Yılmaz</h3>
+            <p id="profileEmail">ahmet@email.com</p>
           </div>
-
           <nav class="profile-menu">
             <a href="profile.html" class="active"
               ><i class="fas fa-user"></i> Profil Bilgileri</a
@@ -204,8 +186,12 @@
             <a href="favorites.html"
               ><i class="fas fa-heart"></i> Favorilerim</a
             >
-            <a href="#"><i class="fas fa-bell"></i> Bildirimler</a>
-            <a href="#" onclick="logout()"
+            <a
+              href="#"
+              onclick="
+                APP.logout();
+                return false;
+              "
               ><i class="fas fa-sign-out-alt"></i> Çıkış Yap</a
             >
           </nav>
@@ -214,29 +200,29 @@
         <div class="profile-content">
           <div class="profile-section">
             <h3>Kişisel Bilgiler</h3>
-            <form
-              onsubmit="
-                event.preventDefault();
-                saveProfile();
-              "
-            >
+            <form id="profileForm">
               <div class="form-row">
                 <div class="form-group">
                   <label>Ad</label>
-                  <input type="text" value="Ahmet" />
+                  <input type="text" name="first_name" required />
                 </div>
                 <div class="form-group">
                   <label>Soyad</label>
-                  <input type="text" value="Yılmaz" />
+                  <input type="text" name="last_name" required />
                 </div>
               </div>
               <div class="form-group">
                 <label>E-posta</label>
-                <input type="email" value="ahmet@email.com" />
+                <input
+                  type="email"
+                  name="email"
+                  disabled
+                  style="background: #f1f5f9"
+                />
               </div>
               <div class="form-group">
                 <label>Telefon</label>
-                <input type="tel" value="0532 123 45 67" />
+                <input type="tel" name="phone" placeholder="05XX XXX XX XX" />
               </div>
               <button type="submit" class="btn btn-primary">
                 <i class="fas fa-save"></i> Değişiklikleri Kaydet
@@ -246,24 +232,24 @@
 
           <div class="profile-section" style="margin-top: 3rem">
             <h3>Şifre Değiştir</h3>
-            <form
-              onsubmit="
-                event.preventDefault();
-                changePassword();
-              "
-            >
+            <form id="passwordForm">
               <div class="form-group">
                 <label>Mevcut Şifre</label>
-                <input type="password" />
+                <input type="password" name="current_password" required />
               </div>
               <div class="form-row">
                 <div class="form-group">
                   <label>Yeni Şifre</label>
-                  <input type="password" />
+                  <input
+                    type="password"
+                    name="new_password"
+                    required
+                    minlength="6"
+                  />
                 </div>
                 <div class="form-group">
                   <label>Yeni Şifre Tekrar</label>
-                  <input type="password" />
+                  <input type="password" name="confirm_password" required />
                 </div>
               </div>
               <button type="submit" class="btn btn-secondary">
@@ -275,20 +261,49 @@
       </div>
     </main>
 
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="assets/js/main.js"></script>
     <script>
-      function saveProfile() {
-        alert("Profil bilgileri güncellendi!");
-      }
+      // Profil formu
+      document
+        .getElementById("profileForm")
+        ?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const success = await APP.updateProfile(formData);
+          if (success) {
+            const firstName = formData.get("first_name");
+            const lastName = formData.get("last_name");
+            document.getElementById("profileName").textContent =
+              `${firstName} ${lastName}`;
+            document.getElementById("profileAvatar").textContent =
+              firstName.charAt(0) + (lastName.charAt(0) || "");
+          }
+        });
 
-      function changePassword() {
-        alert("Şifre değiştirildi!");
-      }
+      // Şifre formu
+      document
+        .getElementById("passwordForm")
+        ?.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const newPass = formData.get("new_password");
+          const confirm = formData.get("confirm_password");
 
-      function logout() {
-        if (confirm("Çıkış yapmak istediğinize emin misiniz?")) {
-          window.location.href = "index.html";
-        }
-      }
+          if (newPass !== confirm) {
+            APP.showToast("Yeni şifreler eşleşmiyor!", "warning");
+            return;
+          }
+
+          await APP.changePassword(formData);
+          e.target.reset();
+        });
+
+      window.addEventListener("load", () => {
+        const spinner = document.getElementById("loadingSpinner");
+        if (spinner) spinner.classList.add("hide");
+      });
     </script>
   </body>
 </html>

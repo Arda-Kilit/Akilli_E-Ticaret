@@ -1,5 +1,5 @@
 /* ============================================
-   RESPONSIVE DESIGN - MOBIL UYUMLULUK
+   RESPONSIVE DESIGN - MOBİL UYUM (ULTRA PROFESYONEL)
    ============================================ */
 
 /* Tablet (768px - 1024px) */
@@ -18,7 +18,11 @@
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -29,7 +33,7 @@
   }
 
   .header-main .container {
-    flex-wrap: wrap;
+    grid-template-columns: auto 1fr auto;
     gap: 1rem;
   }
 
@@ -37,6 +41,7 @@
     order: 3;
     max-width: 100%;
     width: 100%;
+    grid-column: 1 / -1;
   }
 
   .logo {
@@ -61,31 +66,34 @@
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    background: var(--primary-color);
+    background: var(--primary);
     color: white;
     border-radius: var(--radius-md);
     font-size: 1.25rem;
+    border: none;
+    cursor: pointer;
   }
 
   .hero-section {
-    padding: 2.5rem 0;
+    padding: 2rem 0;
+    margin-top: 120px;
+    min-height: 60vh;
   }
 
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
   }
 
   .hero-content p {
-    font-size: 1rem;
+    font-size: 0.9375rem;
   }
 
   .hero-buttons {
     flex-direction: column;
   }
 
-  .btn {
+  .hero-buttons .btn {
     width: 100%;
-    justify-content: center;
   }
 
   .features-grid {
@@ -98,7 +106,7 @@
   }
 
   .product-info {
-    padding: 1rem;
+    padding: 0.75rem;
   }
 
   .product-title {
@@ -106,11 +114,19 @@
   }
 
   .current-price {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   .categories-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .section-title::after {
+    width: 40px;
   }
 
   .footer-grid {
@@ -133,20 +149,80 @@
     text-align: center;
   }
 
-  .section-title {
-    font-size: 1.5rem;
-  }
-
   .toast-container {
     left: 1rem;
     right: 1rem;
-    top: auto;
     bottom: 1rem;
+    top: auto;
   }
 
   .toast {
     min-width: auto;
     width: 100%;
+  }
+
+  /* Modal responsive */
+  .modal-container {
+    width: 95%;
+    margin: 1rem;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-content {
+    flex-direction: column;
+  }
+
+  .modal-image {
+    max-height: 250px;
+  }
+
+  /* Cart responsive */
+  .cart-header {
+    display: none;
+  }
+
+  .cart-item {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    position: relative;
+    padding: 1rem;
+  }
+
+  .cart-product {
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .cart-qty {
+    justify-content: center;
+  }
+
+  .cart-remove {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+  }
+
+  /* Checkout responsive */
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  /* Profile responsive */
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-sidebar {
+    position: sticky;
+    top: 80px;
   }
 }
 
@@ -167,7 +243,37 @@
   }
 
   .hero-content h1 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
+  }
+
+  .hero-badge {
+    font-size: 0.75rem;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .product-card {
+    max-width: 100%;
+  }
+
+  .modal-container {
+    padding: 1rem;
+  }
+
+  .address-card {
+    padding: 1rem;
+  }
+
+  .address-actions {
+    flex-wrap: wrap;
+  }
+
+  .address-actions .btn {
+    flex: 1;
+    justify-content: center;
   }
 }
 
@@ -194,10 +300,11 @@
   width: 80%;
   max-width: 320px;
   height: 100vh;
-  background: white;
+  background: var(--white);
   z-index: 999;
   transition: var(--transition);
   overflow-y: auto;
+  box-shadow: var(--shadow-xl);
 }
 
 .mobile-menu.active {
@@ -206,22 +313,27 @@
 
 .mobile-menu-header {
   padding: 1.5rem;
-  background: var(--primary-color);
-  color: white;
+  background: var(--gradient-primary);
+  color: var(--white);
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .mobile-menu-close {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
   width: 2rem;
   height: 2rem;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+  border-radius: var(--radius-full);
+  color: var(--white);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.mobile-menu-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
 }
 
 .mobile-menu-nav {
@@ -233,13 +345,26 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem 1.5rem;
-  color: var(--text-dark);
-  border-bottom: 1px solid var(--border-color);
+  color: var(--dark-700);
+  border-bottom: 1px solid var(--light);
+  transition: var(--transition);
+}
+
+.mobile-menu-nav a:hover {
+  background: var(--lighter);
+  color: var(--primary);
+  padding-left: 2rem;
 }
 
 .mobile-menu-nav a i {
-  color: var(--primary-color);
   width: 1.5rem;
+  color: var(--primary);
+}
+
+.mobile-menu-nav hr {
+  margin: 0.5rem 0;
+  border: none;
+  border-top: 1px solid var(--light);
 }
 
 /* Print Styles */
@@ -248,7 +373,9 @@
   .main-footer,
   .hero-section,
   .product-actions,
-  .add-to-cart {
+  .add-to-cart,
+  .product-wishlist,
+  .btn {
     display: none !important;
   }
 
@@ -256,5 +383,31 @@
     break-inside: avoid;
     box-shadow: none;
     border: 1px solid #ddd;
+  }
+
+  body {
+    background: white;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 0;
+  }
+}
+
+/* Landscape Mode */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero-section {
+    min-height: 100vh;
+    padding: 4rem 0;
+  }
+
+  .mobile-menu {
+    overflow-y: auto;
+  }
+
+  .modal-container {
+    max-height: 90vh;
+    overflow-y: auto;
   }
 }

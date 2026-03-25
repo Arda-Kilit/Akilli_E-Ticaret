@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Premium Kablosuz Kulaklık - AkıllıShop</title>
+    <title>Ürün Detayı - AkıllıShop</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -13,21 +13,16 @@
     <style>
       .breadcrumb {
         padding: 1rem 0;
-        color: var(--text-light);
+        color: #64748b;
         font-size: 0.875rem;
       }
 
       .breadcrumb a {
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .breadcrumb a:hover {
-        color: var(--primary-color);
-      }
-
-      .breadcrumb i {
-        margin: 0 0.5rem;
-        font-size: 0.75rem;
+        color: #6366f1;
       }
 
       .product-detail {
@@ -46,8 +41,8 @@
       }
 
       .main-image {
-        background: var(--bg-light);
-        border-radius: var(--radius-xl);
+        background: #f8fafc;
+        border-radius: 1.5rem;
         overflow: hidden;
         margin-bottom: 1rem;
         aspect-ratio: 1;
@@ -67,16 +62,16 @@
       .thumbnail {
         width: 80px;
         height: 80px;
-        border-radius: var(--radius-md);
+        border-radius: 0.75rem;
         overflow: hidden;
         cursor: pointer;
         border: 2px solid transparent;
-        transition: var(--transition);
+        transition: all 0.2s ease;
       }
 
       .thumbnail:hover,
       .thumbnail.active {
-        border-color: var(--primary-color);
+        border-color: #6366f1;
       }
 
       .thumbnail img {
@@ -88,7 +83,7 @@
       .product-info-detail h1 {
         font-size: 2rem;
         margin-bottom: 1rem;
-        color: var(--text-dark);
+        color: #0f172a;
       }
 
       .product-meta {
@@ -97,7 +92,7 @@
         gap: 1.5rem;
         margin-bottom: 1.5rem;
         padding-bottom: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .product-meta .rating {
@@ -107,17 +102,7 @@
       }
 
       .product-meta .stars {
-        color: var(--secondary-color);
-      }
-
-      .product-meta .review-count {
-        color: var(--text-light);
-        font-size: 0.875rem;
-      }
-
-      .product-meta .sku {
-        color: var(--text-light);
-        font-size: 0.875rem;
+        color: #f59e0b;
       }
 
       .product-price-detail {
@@ -127,29 +112,29 @@
       .product-price-detail .current {
         font-size: 2.5rem;
         font-weight: 700;
-        color: var(--primary-color);
+        color: #6366f1;
       }
 
       .product-price-detail .old {
         font-size: 1.5rem;
-        color: var(--text-muted);
+        color: #94a3b8;
         text-decoration: line-through;
         margin-left: 1rem;
       }
 
       .product-price-detail .discount {
-        background: var(--danger-color);
+        background: #ef4444;
         color: white;
         padding: 0.25rem 0.75rem;
-        border-radius: var(--radius-sm);
+        border-radius: 0.375rem;
         font-size: 0.875rem;
         font-weight: 600;
         margin-left: 1rem;
       }
 
       .product-short-desc {
-        color: var(--text-light);
-        line-height: 1.8;
+        color: #64748b;
+        line-height: 1.7;
         margin-bottom: 1.5rem;
       }
 
@@ -160,7 +145,7 @@
       .variant-title {
         font-weight: 600;
         margin-bottom: 0.75rem;
-        color: var(--text-dark);
+        color: #0f172a;
       }
 
       .variant-options {
@@ -169,34 +154,19 @@
         flex-wrap: wrap;
       }
 
-      .variant-option {
-        padding: 0.5rem 1rem;
-        border: 2px solid var(--border-color);
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        transition: var(--transition);
-        font-size: 0.875rem;
-      }
-
-      .variant-option:hover,
-      .variant-option.active {
-        border-color: var(--primary-color);
-        color: var(--primary-color);
-      }
-
       .color-option {
         width: 40px;
         height: 40px;
         border-radius: 50%;
         cursor: pointer;
-        border: 3px solid transparent;
-        box-shadow: 0 0 0 1px var(--border-color);
-        transition: var(--transition);
+        border: 2px solid transparent;
+        box-shadow: 0 0 0 1px #e2e8f0;
+        transition: all 0.2s ease;
       }
 
       .color-option:hover,
       .color-option.active {
-        box-shadow: 0 0 0 2px var(--primary-color);
+        box-shadow: 0 0 0 2px #6366f1;
       }
 
       .product-actions-detail {
@@ -204,16 +174,16 @@
         gap: 1rem;
         margin-bottom: 2rem;
         padding: 1.5rem;
-        background: var(--bg-light);
-        border-radius: var(--radius-lg);
+        background: #f8fafc;
+        border-radius: 1rem;
       }
 
       .quantity-selector {
         display: flex;
         align-items: center;
         background: white;
-        border-radius: var(--radius-md);
-        border: 1px solid var(--border-color);
+        border-radius: 0.75rem;
+        border: 1px solid #e2e8f0;
       }
 
       .quantity-selector button {
@@ -222,12 +192,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        color: var(--text-light);
-        transition: var(--transition);
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
 
       .quantity-selector button:hover {
-        color: var(--primary-color);
+        color: #6366f1;
       }
 
       .quantity-selector input {
@@ -246,20 +218,22 @@
       .btn-wishlist {
         width: 50px;
         height: 50px;
-        border: 2px solid var(--border-color);
-        border-radius: var(--radius-md);
+        border: 2px solid #e2e8f0;
+        border-radius: 0.75rem;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 1.25rem;
-        color: var(--text-light);
-        transition: var(--transition);
+        color: #64748b;
+        background: white;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
 
       .btn-wishlist:hover,
       .btn-wishlist.active {
-        border-color: var(--danger-color);
-        color: var(--danger-color);
+        border-color: #ef4444;
+        color: #ef4444;
       }
 
       .product-features {
@@ -274,11 +248,11 @@
         align-items: center;
         gap: 0.75rem;
         font-size: 0.875rem;
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .feature-item i {
-        color: var(--success-color);
+        color: #10b981;
       }
 
       .product-tabs {
@@ -288,23 +262,26 @@
       .tabs-header {
         display: flex;
         gap: 2rem;
-        border-bottom: 2px solid var(--border-color);
+        border-bottom: 2px solid #e2e8f0;
         margin-bottom: 2rem;
       }
 
       .tab-btn {
         padding: 1rem 0;
         font-weight: 600;
-        color: var(--text-light);
+        color: #64748b;
         border-bottom: 2px solid transparent;
         margin-bottom: -2px;
-        transition: var(--transition);
+        background: none;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
       }
 
       .tab-btn.active,
       .tab-btn:hover {
-        color: var(--primary-color);
-        border-bottom-color: var(--primary-color);
+        color: #6366f1;
+        border-bottom-color: #6366f1;
       }
 
       .tab-content {
@@ -321,7 +298,7 @@
       }
 
       .specs-table tr {
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .specs-table td {
@@ -330,13 +307,13 @@
 
       .specs-table td:first-child {
         font-weight: 600;
-        color: var(--text-dark);
+        color: #0f172a;
         width: 30%;
       }
 
       .review-item {
         padding: 1.5rem;
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: 1px solid #e2e8f0;
       }
 
       .review-header {
@@ -355,7 +332,7 @@
         width: 40px;
         height: 40px;
         border-radius: 50%;
-        background: var(--primary-color);
+        background: #6366f1;
         color: white;
         display: flex;
         align-items: center;
@@ -363,17 +340,13 @@
         font-weight: 600;
       }
 
-      .reviewer-name {
-        font-weight: 600;
-      }
-
       .review-date {
         font-size: 0.875rem;
-        color: var(--text-light);
+        color: #64748b;
       }
 
       .review-content {
-        color: var(--text-light);
+        color: #64748b;
         line-height: 1.6;
       }
 
@@ -387,50 +360,44 @@
           top: 0;
         }
       }
+
+      @media (max-width: 480px) {
+        .product-actions-detail {
+          flex-direction: column;
+        }
+
+        .btn-wishlist {
+          width: 100%;
+          height: 50px;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- Header (index.html'den kopyala veya include et) -->
+    <div class="loading-spinner" id="loadingSpinner">
+      <div class="spinner"></div>
+    </div>
+
     <header class="main-header">
-      <div class="header-top">
-        <div class="container">
-          <div>
-            <i class="fas fa-phone"></i> 0850 123 45 67 |
-            <i class="fas fa-envelope"></i> destek@akillishop.com
-          </div>
-          <div>
-            <a href="#" style="margin-right: 1rem"
-              ><i class="fas fa-truck"></i> Kargo Takip</a
-            >
-            <a href="#"><i class="fas fa-question-circle"></i> Yardım</a>
-          </div>
-        </div>
-      </div>
       <div class="header-main">
         <div class="container">
-          <a href="index.html" class="logo">
-            <i class="fas fa-shopping-bag"></i>
-            <span>AkıllıShop</span>
-          </a>
-          <div class="search-bar">
-            <form>
-              <input
-                type="text"
-                placeholder="Ürün, kategori veya marka ara..."
-              />
-              <button type="submit"><i class="fas fa-search"></i></button>
-            </form>
-          </div>
+          <a href="index.html" class="logo"
+            ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
+          >
           <div class="header-actions">
-            <a href="login.html" class="header-action"
+            <a href="login.html" class="header-action" id="desktopLoginLink"
               ><i class="fas fa-user"></i><span>Giriş</span></a
             >
-            <a href="#" class="header-action"
-              ><i class="fas fa-heart"></i><span>Favori</span></a
+            <a
+              href="profile.html"
+              class="header-action"
+              id="desktopProfileLink"
+              style="display: none"
+              ><i class="fas fa-user-check"></i><span>Profilim</span></a
             >
             <a href="cart.html" class="header-action"
               ><i class="fas fa-shopping-cart"></i><span>Sepet</span
-              ><span class="cart-count">3</span></a
+              ><span class="cart-count" id="cartCount">0</span></a
             >
           </div>
         </div>
@@ -441,11 +408,9 @@
       <nav class="breadcrumb">
         <a href="index.html">Ana Sayfa</a>
         <i class="fas fa-chevron-right"></i>
-        <a href="#">Elektronik</a>
+        <a href="products.html">Ürünler</a>
         <i class="fas fa-chevron-right"></i>
-        <a href="#">Kulaklık</a>
-        <i class="fas fa-chevron-right"></i>
-        <span>Premium Kablosuz Kulaklık</span>
+        <span id="productName">Ürün Detayı</span>
       </nav>
 
       <section class="product-detail">
@@ -453,169 +418,64 @@
           <div class="product-gallery">
             <div class="main-image">
               <img
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800"
-                alt="Premium Kablosuz Kulaklık"
-                id="main-image"
+                id="mainImage"
+                src="https://via.placeholder.com/600"
+                alt="Ürün görseli"
               />
             </div>
-            <div class="thumbnail-list">
-              <div
-                class="thumbnail active"
-                onclick="
-                  changeImage(
-                    this,
-                    'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800',
-                  )
-                "
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200"
-                  alt=""
-                />
-              </div>
-              <div
-                class="thumbnail"
-                onclick="
-                  changeImage(
-                    this,
-                    'https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800',
-                  )
-                "
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200"
-                  alt=""
-                />
-              </div>
-              <div
-                class="thumbnail"
-                onclick="
-                  changeImage(
-                    this,
-                    'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=800',
-                  )
-                "
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=200"
-                  alt=""
-                />
-              </div>
-              <div
-                class="thumbnail"
-                onclick="
-                  changeImage(
-                    this,
-                    'https://images.unsplash.com/photo-1524678606372-fa87b88052c7?w=800',
-                  )
-                "
-              >
-                <img
-                  src="https://images.unsplash.com/photo-1524678606372-fa87b88052c7?w=200"
-                  alt=""
-                />
-              </div>
-            </div>
+            <div class="thumbnail-list" id="thumbnailList"></div>
           </div>
 
           <div class="product-info-detail">
-            <h1>Premium Kablosuz Kulaklık</h1>
+            <h1 id="productTitle">Ürün Adı</h1>
 
             <div class="product-meta">
               <div class="rating">
-                <span class="stars">
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star"></i>
-                  <i class="fas fa-star-half-alt"></i>
-                </span>
-                <span class="review-count">128 Değerlendirme</span>
+                <span class="stars" id="productRating"></span>
+                <span class="review-count" id="reviewCount"
+                  >0 Değerlendirme</span
+                >
               </div>
-              <span class="sku">SKU: PRD-001</span>
+              <span class="sku" id="productSku">SKU: ---</span>
             </div>
 
-            <div class="product-price-detail">
-              <span class="current">₺1.299,99</span>
-              <span class="old">₺1.599,99</span>
-              <span class="discount">%20 İndirim</span>
-            </div>
+            <div class="product-price-detail" id="productPriceContainer"></div>
 
-            <p class="product-short-desc">
-              Aktif gürültü engelleme teknolojisi, 30 saat pil ömrü ve premium
-              ses kalitesi ile tanışın. Bluetooth 5.0 bağlantısı, dokunmatik
-              kontroller ve katlanabilir tasarım.
+            <p class="product-short-desc" id="productDesc">
+              Ürün açıklaması yükleniyor...
             </p>
 
-            <div class="product-variants">
-              <div class="variant-title">Renk Seçimi:</div>
-              <div class="variant-options">
-                <div
-                  class="color-option active"
-                  style="background: #1a1a1a"
-                  title="Siyah"
-                  onclick="selectVariant(this)"
-                ></div>
-                <div
-                  class="color-option"
-                  style="background: #f5f5f5"
-                  title="Beyaz"
-                  onclick="selectVariant(this)"
-                ></div>
-                <div
-                  class="color-option"
-                  style="background: #c0c0c0"
-                  title="Gümüş"
-                  onclick="selectVariant(this)"
-                ></div>
-                <div
-                  class="color-option"
-                  style="background: #4169e1"
-                  title="Mavi"
-                  onclick="selectVariant(this)"
-                ></div>
-              </div>
-            </div>
+            <div class="product-variants" id="variantsContainer"></div>
 
             <div class="product-actions-detail">
               <div class="quantity-selector">
                 <button onclick="updateQty(-1)">
                   <i class="fas fa-minus"></i>
                 </button>
-                <input
-                  type="number"
-                  value="1"
-                  min="1"
-                  max="10"
-                  id="qty-input"
-                />
+                <input type="number" value="1" min="1" max="99" id="qtyInput" />
                 <button onclick="updateQty(1)">
                   <i class="fas fa-plus"></i>
                 </button>
               </div>
-              <button
-                class="btn btn-primary btn-add-cart"
-                onclick="addToCart()"
-              >
+              <button class="btn btn-primary btn-add-cart" id="addToCartBtn">
                 <i class="fas fa-shopping-cart"></i> Sepete Ekle
               </button>
-              <button class="btn-wishlist" onclick="toggleWishlist(this)">
+              <button class="btn-wishlist" id="wishlistBtn">
                 <i class="far fa-heart"></i>
               </button>
             </div>
 
             <div class="product-features">
               <div class="feature-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Stokta var</span>
+                <i class="fas fa-check-circle"></i
+                ><span id="stockStatus">Stok durumu kontrol ediliyor...</span>
               </div>
               <div class="feature-item">
-                <i class="fas fa-truck"></i>
-                <span>Ücretsiz kargo</span>
+                <i class="fas fa-truck"></i
+                ><span>Ücretsiz kargo (150₺ üzeri)</span>
               </div>
               <div class="feature-item">
-                <i class="fas fa-shield-alt"></i>
-                <span>2 yıl garanti</span>
+                <i class="fas fa-shield-alt"></i><span>2 yıl garanti</span>
               </div>
             </div>
 
@@ -628,185 +488,42 @@
                   Özellikler
                 </button>
                 <button class="tab-btn" onclick="showTab('reviews')">
-                  Değerlendirmeler (128)
+                  Değerlendirmeler (<span id="reviewCountBadge">0</span>)
                 </button>
               </div>
 
-              <div id="description" class="tab-content active">
-                <h3>Ürün Açıklaması</h3>
-                <p>
-                  Premium Kablosuz Kulaklık, üstün ses kalitesi ve konforu bir
-                  araya getiriyor. Aktif gürültü engelleme teknolojisi sayesinde
-                  dış dünyayı tamamen kapatıp müziğinize odaklanabilirsiniz.
-                </p>
-                <br />
-                <h4>Öne Çıkan Özellikler:</h4>
-                <ul
-                  style="
-                    margin-left: 1.5rem;
-                    margin-top: 0.5rem;
-                    line-height: 2;
-                  "
-                >
-                  <li>Aktif Gürültü Engelleme (ANC)</li>
-                  <li>30 saat pil ömrü</li>
-                  <li>Hızlı şarj (10 dk = 3 saat)</li>
-                  <li>Bluetooth 5.0</li>
-                  <li>Çok noktalı bağlantı</li>
-                </ul>
-              </div>
-
-              <div id="specs" class="tab-content">
-                <table class="specs-table">
-                  <tr>
-                    <td>Marka</td>
-                    <td>SoundMax</td>
-                  </tr>
-                  <tr>
-                    <td>Model</td>
-                    <td>Pro X200</td>
-                  </tr>
-                  <tr>
-                    <td>Bağlantı</td>
-                    <td>Bluetooth 5.0</td>
-                  </tr>
-                  <tr>
-                    <td>Pil Ömrü</td>
-                    <td>30 saat (ANC kapalı)</td>
-                  </tr>
-                  <tr>
-                    <td>Şarj Süresi</td>
-                    <td>2 saat</td>
-                  </tr>
-                  <tr>
-                    <td>Ağırlık</td>
-                    <td>250g</td>
-                  </tr>
-                  <tr>
-                    <td>Garanti</td>
-                    <td>2 yıl</td>
-                  </tr>
-                </table>
-              </div>
-
-              <div id="reviews" class="tab-content">
-                <div class="review-item">
-                  <div class="review-header">
-                    <div class="reviewer">
-                      <div class="reviewer-avatar">AK</div>
-                      <div>
-                        <div class="reviewer-name">Ahmet K.</div>
-                        <div
-                          class="stars"
-                          style="
-                            color: var(--secondary-color);
-                            font-size: 0.875rem;
-                          "
-                        >
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="review-date">2 gün önce</span>
-                  </div>
-                  <div class="review-content">
-                    Ses kalitesi gerçekten mükemmel! Gürültü engelleme özelliği
-                    metroda çok işe yarıyor. Kesinlikle tavsiye ederim.
-                  </div>
-                </div>
-                <div class="review-item">
-                  <div class="review-header">
-                    <div class="reviewer">
-                      <div class="reviewer-avatar">MY</div>
-                      <div>
-                        <div class="reviewer-name">Mehmet Y.</div>
-                        <div
-                          class="stars"
-                          style="
-                            color: var(--secondary-color);
-                            font-size: 0.875rem;
-                          "
-                        >
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="fas fa-star"></i>
-                          <i class="far fa-star"></i>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="review-date">1 hafta önce</span>
-                  </div>
-                  <div class="review-content">
-                    Fiyat/performans ürünü. Pil ömrü gerçekten 30 saat civarında
-                    gidiyor. Tek sorun kulaklığı uzun süre takınca kulaklar
-                    biraz terliyor.
-                  </div>
-                </div>
-              </div>
+              <div
+                id="description"
+                class="tab-content active"
+                id="descriptionContent"
+              ></div>
+              <div id="specs" class="tab-content" id="specsContent"></div>
+              <div id="reviews" class="tab-content" id="reviewsContent"></div>
             </div>
           </div>
         </div>
       </section>
+
+      <div class="product-recommendations"></div>
     </main>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-      <div class="container">
-        <div class="footer-grid">
-          <div class="footer-brand">
-            <a href="index.html" class="logo"
-              ><i class="fas fa-shopping-bag"></i><span>AkıllıShop</span></a
-            >
-            <p>Modern ve güvenli alışveriş deneyimi.</p>
-          </div>
-          <div class="footer-column">
-            <h4>Hızlı Linkler</h4>
-            <ul>
-              <li><a href="index.html">Ana Sayfa</a></li>
-              <li><a href="products.html">Ürünler</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
+    <div class="toast-container" id="toastContainer"></div>
 
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/recommendations.js"></script>
     <script>
-      function changeImage(thumb, src) {
-        document.getElementById("main-image").src = src;
-        document
-          .querySelectorAll(".thumbnail")
-          .forEach((t) => t.classList.remove("active"));
-        thumb.classList.add("active");
-      }
-
-      function selectVariant(el) {
-        document
-          .querySelectorAll(".color-option")
-          .forEach((o) => o.classList.remove("active"));
-        el.classList.add("active");
-      }
+      let currentProduct = null;
+      let selectedVariant = null;
+      let currentQuantity = 1;
 
       function updateQty(change) {
-        const input = document.getElementById("qty-input");
+        const input = document.getElementById("qtyInput");
         let val = parseInt(input.value) + change;
-        if (val >= 1 && val <= 10) input.value = val;
-      }
-
-      function addToCart() {
-        const qty = document.getElementById("qty-input").value;
-        alert(qty + " adet ürün sepete eklendi!");
-      }
-
-      function toggleWishlist(btn) {
-        btn.classList.toggle("active");
-        const icon = btn.querySelector("i");
-        icon.classList.toggle("far");
-        icon.classList.toggle("fas");
+        if (val < 1) val = 1;
+        if (val > (currentProduct?.quantity || 99))
+          val = currentProduct?.quantity || 99;
+        input.value = val;
+        currentQuantity = val;
       }
 
       function showTab(tabId) {
@@ -819,6 +536,227 @@
         document.getElementById(tabId).classList.add("active");
         event.target.classList.add("active");
       }
+
+      async function loadProductDetail() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get("id");
+        if (!productId) {
+          window.location.href = "products.html";
+          return;
+        }
+
+        try {
+          const response = await fetch(
+            `${APP.config.baseUrl}${APP.config.apiEndpoint}product_api.php?action=detail&id=${productId}`,
+          );
+          const data = await response.json();
+
+          if (data.success) {
+            currentProduct = data.product;
+            renderProductDetail(data.product);
+          } else {
+            APP.showToast("Ürün bulunamadı!", "error");
+            setTimeout(() => (window.location.href = "products.html"), 1500);
+          }
+        } catch (error) {
+          APP.showToast("Ürün yüklenirken hata!", "error");
+        }
+      }
+
+      function renderProductDetail(product) {
+        // Temel bilgiler
+        document.getElementById("productTitle").textContent = product.name;
+        document.getElementById("productName").textContent = product.name;
+        document.getElementById("productDesc").textContent =
+          product.description || "Ürün açıklaması bulunmamaktadır.";
+        document.getElementById("productSku").textContent =
+          `SKU: ${product.sku}`;
+
+        // Fiyat
+        const price = parseFloat(product.sale_price || product.price);
+        const oldPrice = product.sale_price ? parseFloat(product.price) : null;
+        const discount = oldPrice
+          ? Math.round((1 - price / oldPrice) * 100)
+          : 0;
+
+        let priceHtml = `<span class="current">${APP.formatPrice(price)}</span>`;
+        if (oldPrice) {
+          priceHtml += `<span class="old">${APP.formatPrice(oldPrice)}</span>`;
+          priceHtml += `<span class="discount">-${discount}%</span>`;
+        }
+        document.getElementById("productPriceContainer").innerHTML = priceHtml;
+
+        // Stok durumu
+        const stockStatus = document.getElementById("stockStatus");
+        if (product.quantity > 0) {
+          stockStatus.innerHTML = `<i class="fas fa-check-circle"></i> Stokta var (${product.quantity} adet)`;
+          stockStatus.style.color = "#10b981";
+        } else {
+          stockStatus.innerHTML = `<i class="fas fa-times-circle"></i> Stokta yok`;
+          stockStatus.style.color = "#ef4444";
+          document.getElementById("addToCartBtn").disabled = true;
+          document.getElementById("addToCartBtn").style.opacity = "0.5";
+        }
+
+        // Ana görsel
+        const mainImage =
+          product.images?.find((img) => img.is_main) || product.images?.[0];
+        if (mainImage) {
+          document.getElementById("mainImage").src = mainImage.image_path;
+        }
+
+        // Thumbnail'ler
+        if (product.images && product.images.length > 0) {
+          const thumbnailHtml = product.images
+            .map(
+              (img) => `
+                    <div class="thumbnail" onclick="changeImage(this, '${img.image_path}')">
+                        <img src="${img.image_path}" alt="">
+                    </div>
+                `,
+            )
+            .join("");
+          document.getElementById("thumbnailList").innerHTML = thumbnailHtml;
+          document.querySelector(".thumbnail")?.classList.add("active");
+        }
+
+        // Varyantlar
+        if (product.variants && product.variants.length > 0) {
+          const variantHtml = `
+                    <div class="variant-title">Varyant Seçimi:</div>
+                    <div class="variant-options">
+                        ${product.variants
+                          .map(
+                            (v) => `
+                            <div class="variant-option" data-variant-id="${v.id}" data-price-diff="${v.price_difference}" onclick="selectVariant(this, ${v.id}, ${v.price_difference})">
+                                ${v.variant_name} ${v.price_difference > 0 ? `(+${APP.formatPrice(v.price_difference)})` : ""}
+                            </div>
+                        `,
+                          )
+                          .join("")}
+                    </div>
+                `;
+          document.getElementById("variantsContainer").innerHTML = variantHtml;
+        }
+
+        // Değerlendirmeler
+        if (product.reviews && product.reviews.length > 0) {
+          const avgRating =
+            product.reviews.reduce((sum, r) => sum + r.rating, 0) /
+            product.reviews.length;
+          const stars =
+            "★".repeat(Math.floor(avgRating)) +
+            "☆".repeat(5 - Math.floor(avgRating));
+          document.getElementById("productRating").innerHTML = stars;
+          document.getElementById("reviewCount").textContent =
+            `${product.reviews.length} Değerlendirme`;
+          document.getElementById("reviewCountBadge").textContent =
+            product.reviews.length;
+
+          const reviewsHtml = product.reviews
+            .map(
+              (r) => `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <div class="reviewer">
+                                <div class="reviewer-avatar">${r.first_name?.charAt(0) || "U"}</div>
+                                <div>
+                                    <div class="reviewer-name">${r.first_name || "Kullanıcı"} ${r.last_name || ""}</div>
+                                    <div class="stars">${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}</div>
+                                </div>
+                            </div>
+                            <span class="review-date">${new Date(r.created_at).toLocaleDateString("tr-TR")}</span>
+                        </div>
+                        <div class="review-content">${r.comment || "Değerlendirme yapılmamış."}</div>
+                    </div>
+                `,
+            )
+            .join("");
+          document.getElementById("reviewsContent").innerHTML = reviewsHtml;
+        } else {
+          document.getElementById("reviewsContent").innerHTML =
+            "<p>Henüz değerlendirme yapılmamış.</p>";
+        }
+
+        // Açıklama
+        document.getElementById("descriptionContent").innerHTML =
+          `<h3>Ürün Açıklaması</h3><p>${product.description || "Ürün açıklaması bulunmamaktadır."}</p>`;
+
+        // Özellikler
+        document.getElementById("specsContent").innerHTML = `
+                <table class="specs-table">
+                    <tr><td>Marka</td><td>${product.brand || "AkıllıShop"}</td></tr>
+                    <tr><td>Model</td><td>${product.model || product.name}</td></tr>
+                    <tr><td>SKU</td><td>${product.sku}</td></tr>
+                    <tr><td>Kategori</td><td>${product.category_name || "-"}</td></tr>
+                    <tr><td>Stok Durumu</td><td>${product.quantity > 0 ? "Stokta var" : "Stokta yok"}</td></tr>
+                </table>
+            `;
+
+        // Favori durumu
+        const isFavorite = APP.state.favorites.has(product.id);
+        const wishlistBtn = document.getElementById("wishlistBtn");
+        if (isFavorite) {
+          wishlistBtn.classList.add("active");
+          wishlistBtn.querySelector("i").classList.remove("far");
+          wishlistBtn.querySelector("i").classList.add("fas");
+        }
+
+        // Sepete ekle butonu
+        document.getElementById("addToCartBtn").onclick = () => {
+          APP.addToCart(
+            product.id,
+            currentQuantity,
+            selectedVariant,
+            document.getElementById("addToCartBtn"),
+          );
+        };
+
+        // Favori butonu
+        wishlistBtn.onclick = () => {
+          APP.toggleWishlist(product.id, wishlistBtn);
+        };
+      }
+
+      function changeImage(thumb, src) {
+        document.getElementById("mainImage").src = src;
+        document
+          .querySelectorAll(".thumbnail")
+          .forEach((t) => t.classList.remove("active"));
+        thumb.classList.add("active");
+      }
+
+      function selectVariant(el, variantId, priceDiff) {
+        document
+          .querySelectorAll(".variant-option")
+          .forEach((opt) => opt.classList.remove("active"));
+        el.classList.add("active");
+        selectedVariant = variantId;
+
+        // Fiyat güncelleme
+        const basePrice = parseFloat(
+          currentProduct.sale_price || currentProduct.price,
+        );
+        const newPrice = basePrice + parseFloat(priceDiff);
+        const oldPrice = currentProduct.sale_price
+          ? parseFloat(currentProduct.price)
+          : null;
+
+        let priceHtml = `<span class="current">${APP.formatPrice(newPrice)}</span>`;
+        if (oldPrice) {
+          priceHtml += `<span class="old">${APP.formatPrice(oldPrice)}</span>`;
+          const discount = Math.round((1 - newPrice / oldPrice) * 100);
+          if (discount > 0)
+            priceHtml += `<span class="discount">-${discount}%</span>`;
+        }
+        document.getElementById("productPriceContainer").innerHTML = priceHtml;
+      }
+
+      window.addEventListener("load", () => {
+        const spinner = document.getElementById("loadingSpinner");
+        if (spinner) spinner.classList.add("hide");
+        loadProductDetail();
+      });
     </script>
   </body>
 </html>

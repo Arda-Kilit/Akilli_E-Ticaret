@@ -1,5 +1,5 @@
 /**
- * KULLANICI GİRİŞ/KAYIT İŞLEMLERİ
+ * KULLANICI GİRİŞ/KAYIT İŞLEMLERİ - PROFESYONEL VERSİYON
  */
 
 const Auth = {
@@ -18,13 +18,12 @@ const Auth = {
 
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Giriş yapılıyor...';
 
             try {
                 const formData = new FormData(form);
-                const response = await fetch(`${APP.baseUrl}api/auth_api.php`, {
+                const response = await fetch(`${APP.config.baseUrl}${APP.config.apiEndpoint}auth_api.php`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
@@ -39,9 +38,7 @@ const Auth = {
 
                 if (data.success) {
                     APP.showToast('Giriş başarılı! Yönlendiriliyorsunuz...', 'success');
-
-                    // Başarılı giriş sonrası yönlendirme
-                    const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.php';
+                    const redirect = new URLSearchParams(window.location.search).get('redirect') || 'index.html';
                     setTimeout(() => window.location.href = redirect, 1000);
                 } else {
                     this.showFormError(form, data.message);
@@ -59,14 +56,12 @@ const Auth = {
         const form = document.getElementById('register-form');
         if (!form) return;
 
-        // Şifre güçlülük kontrolü
         const passwordInput = form.querySelector('input[name="password"]');
         passwordInput?.addEventListener('input', (e) => this.checkPasswordStrength(e.target));
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Şifre eşleşme kontrolü
             const password = form.querySelector('input[name="password"]').value;
             const confirmPassword = form.querySelector('input[name="confirm_password"]').value;
 
@@ -82,18 +77,18 @@ const Auth = {
 
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerHTML;
-
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Kaydediliyor...';
 
             try {
                 const formData = new FormData(form);
-                const response = await fetch(`${APP.baseUrl}api/auth_api.php`, {
+                const response = await fetch(`${APP.config.baseUrl}${APP.config.apiEndpoint}auth_api.php`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         action: 'register',
-                        name: formData.get('name'),
+                        first_name: formData.get('first_name'),
+                        last_name: formData.get('last_name'),
                         email: formData.get('email'),
                         phone: formData.get('phone'),
                         password: password
@@ -104,7 +99,7 @@ const Auth = {
 
                 if (data.success) {
                     APP.showToast('Kayıt başarılı! Giriş yapabilirsiniz.', 'success');
-                    setTimeout(() => window.location.href = 'login.php', 1500);
+                    setTimeout(() => window.location.href = 'login.html', 1500);
                 } else {
                     this.showFormError(form, data.message);
                 }
@@ -119,7 +114,8 @@ const Auth = {
 
     checkPasswordStrength(input) {
         const password = input.value;
-        const strengthBar = document.querySelector('.password-strength');
+        const strengthBar = document.getElementById('strength-bar');
+        const strengthText = document.getElementById('strength-text');
         if (!strengthBar) return;
 
         let strength = 0;
@@ -134,52 +130,34 @@ const Auth = {
 
         strengthBar.style.width = `${(strength / 5) * 100}%`;
         strengthBar.style.backgroundColor = colors[strength - 1] || '#ef4444';
-        strengthBar.textContent = texts[strength - 1] || '';
+        strengthText.textContent = `Şifre gücü: ${texts[strength - 1] || 'Çok Zayıf'}`;
+        strengthText.style.color = colors[strength - 1] || '#ef4444';
     },
 
     initPasswordToggle() {
         document.querySelectorAll('.toggle-password').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const input = document.querySelector(btn.dataset.target);
-                if (input) {
-                    input.type = input.type === 'password' ? 'text' : 'password';
-                    btn.querySelector('i').classList.toggle('fa-eye');
-                    btn.querySelector('i').classList.toggle('fa-eye-slash');
+            btn.addEventListener('click', () => {
+                const input = btn.previousElementSibling;
+                if (input && input.type === 'password') {
+                    input.type = 'text';
+                    btn.classList.remove('fa-eye');
+                    btn.classList.add('fa-eye-slash');
+                } else if (input) {
+                    input.type = 'password';
+                    btn.classList.remove('fa-eye-slash');
+                    btn.classList.add('fa-eye');
                 }
             });
         });
     },
 
     showFormError(form, message) {
-        // Mevcut hataları temizle
         form.querySelectorAll('.alert-error').forEach(el => el.remove());
-
         const alert = document.createElement('div');
-        alert.className = 'alert alert-error';
+        alert.className = 'alert-error';
         alert.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
-
         form.insertBefore(alert, form.firstChild);
-
-        // 5 saniye sonra kaldır
         setTimeout(() => alert.remove(), 5000);
-    },
-
-    async logout() {
-        try {
-            const response = await fetch(`${APP.baseUrl}api/auth_api.php`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'logout' })
-            });
-
-            const data = await response.json();
-
-            if (data.success) {
-                window.location.href = 'index.php';
-            }
-        } catch (error) {
-            console.error('Çıkış hatası:', error);
-        }
     }
 };
 
